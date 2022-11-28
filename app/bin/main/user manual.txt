@@ -1,0 +1,449 @@
+Player Manager - Manual
+CONTROLS : MANAGER - MOUSE Control
+         : THE MATCH - JOYSTICK Control
+
+INTRODUCTION
+The newly appointed PLAYER MANAGER of a third division club, an
+international class player, can use his skill and experience on the pitch
+and help his club to be promoted swiftly. Further promotion and success in the
+top division will require a balanced team and  winning tactics.
+
+Four well proven tactics are provided and he can refine tactics or design
+totally new tactics.The transfer market gives the opportunity to strengthen
+his squad. There are over 1000 players in the league. Each player is an
+individual with a unique mixture of several attributes and playing skills.
+
+The financial control of the club rests with the board. The manager is kept
+informed as to how much money he has available to buy players.If extra money
+is required, he must seek the boards permission.The board may also ask him to
+sell players in order to help the club's finances.
+
+The actual match uses a refined version of KICK OFF, retaining the controls
+and the game play. The match lasts five minutes each half and the manager if
+he selects himself can play in the game.He can either control the player
+nearest the ball or play in his designated position.Only in his assigned
+position will he play as an international class player. In other positions he
+will assume the attributes of that player.He can substitute the players and
+change tactics when the ball goes out of play. If watching instead of playing
+he has the option to watch any one player on the field and study his game play
+in depth, an invaluable facility to study a player on the transfer market. He
+has the option to watch an accelerated version of the game on the scanner,
+still retaining the  options to substitute the change tactics.
+
+The manager can greatly improve his chances of success by paying great
+attention to the player info. The player attributes and skills change with
+experience and training. A player improves his skills with his playing
+position, yet his talents may lie elsewhere. The manager may experiment by
+training a player in a different position and perhaps discover a hidden
+talent.
+
+The real task of a manager is to understand how events can effect the morale
+of an individual,player or the whole team and the measures he must take to
+counter the effect. The manager must be aware of his own contribution to the
+team as a player. When to hang up his boots finally, is the single most
+important decision he will make.
+
+The manager must at all time pay due attention to the individual player morale
+and the team morale notified in the coah report. The morale effects the
+individual player performance and the team performance.
+
+The MESSAGE screen appearing from time to time is used by the board and
+coach to keep the manager informed. It also displays interesting NEWS items
+which may or may not have a direct bearing on the managers decisions. He must
+at all times pay attention to the messages from the board. His job security
+rests with the board.
+
+MANAGEMENT
+NEW GAME
+* WARNING * - DATA DISK is required to save a NEW GAME. You may use a
+BLANK DISK or a disk with  previously saved PLAYER MANAGER GAMES. A BLANK DISK
+or a disk with any other data will be FORMATTED for player manager format.
+
+Insert the disk and press any key. The computer takes approx. 8 mins to initi-
+lise. You will be asked to give the new game a filename. The next screen will
+show the player managers name and his playing record. It wills also give the
+club name. Use the keyboard to edit the player manager name and the club name.
+You will also be asked to select whether the manager will
+
+PLAY AS A TEAM - The option allows you to control all the players on the field
+if the manager is playing.
+
+PLAY IN POSITION - The manager plays in his selected position i.e. as a
+forward. This option is the right and best way to play the player manager
+game. A manager playing as a team is handicapped to compensate for the immense
+versatility of a human player.
+
+The next display allows you to see the teams in each div. of the league. You
+can edit the names of the clubs using the keyboard. If the name you have
+chosen for your team has already been used in one of the divisions, the name
+in that division will be replaced with BURY. You will not be allowed to use
+your club name in any of the other divisions. Please check the team name is
+only provided at this stage.
+
+You can also LOAD the division list from a previously played player manager
+game or a SAVE the current list for use in a later games.
+
+CONTINUE GAME: FILE NAMES of all previously played games are displayed.
+
+MAIN MENU : The options on the main menu take you to various aspects of the
+management. Select the option by clicking the mouse. The week No. of the
+season is displayed on the main menu and advances by 1 after returning to it
+from the match day.
+
+THE SQUAD - The squad screen shows the name, Age, Position, Shirt # and
+Status of all the players in the squad.
+
+POSITION - There are four categories of players, namely Forward, Midfield,
+Defence and Keeper.A player training and playing in a given category will
+over a time acquire the skills associated with that category.
+
+SHIRT # - With the exception of #1 shirt which is assigned to the keeper, all
+the shirt numbers are dictated by the shirt numbers selected in tactics
+design.
+
+STATUS - The status shows the availability of the player for selection. If he
+is injured or banned, letters I or B will appear. A player on the transfer
+LIST(T) or requesting transfer(R) is also displayed. This information can be
+useful to the manager. Click the status column for STATUS-SCREEN, a detailed
+information on each player.
+
+PLAYER INFORMATION : The details of a players attributes and skill levels are
+obtained by clicking the mouse pointer at the player name. The attributes and
+skill levels are rated on 100 being an average. A rating of 400 for pace e.g.
+signifies four times the average pace.The ratings are on an absolute scale.
+The information on each player should be studied with care by the manager and
+especially the change in the skills and attributes over a period.
+
+STATUS-SCREEN : Click on the status column for any player on the squad screen
+to display the status information of that player.This screen provides the
+following facilities
+
+INJURY-REPORT: Gives the manager the extent of players injury and the approx.
+period the player will not be available to play. If a player has been put
+on light training after a serious injury, the manager can play him but runs
+the risk of aggrevating the injury.
+
+DISCIPLINARY-REPORT: A red card means suspension for the next two matches
+To keep the behaviour record of a player , each red card equals 10 points.
+Exceeding 10 points results in automatic suspension for 2 matches. Each yellow
+card is equal to 4 disciplinary points.
+
+TRANSFER-REPORT :  A players transfer request, the reason for the request and
+the duration for which he is waiting for a reply is shown. The manager has the
+option to ignore the request, take an action to cause the player to withdraw
+the request or deny request. His action will determine the player's
+performance. Info regarding a player put on the transfer list on his own
+request or by the managerial decision and the duration on the list is shown.
+If a player is not sold, the manager has the option to cancel the transfer or
+re-value the player.
+
+REVALUE : The manager has the option to revalue a player at an higher or lower
+figure. The former is basically to keep a good player requesting transfer and
+the other to unload an over-priced player.The manager can set his selling
+price independent of the boards valuation.
+
+OFFER-NEW-CONTRACT : A player coming to the end of his contract or
+requesting transfer may be offered a new contract. The manager has the option
+on duration but not the cost of the new contract. Long contracts are generally
+more expensive. The cost of a new contract on a lump sum basis will be
+deducted from the money available to him for buying new players.The manager
+should keep a close watch on the players nearing the end of their contract.
+The offer of a new contract should be made early as the player may refuse it.
+At the end of the contract, the player is on a FREE and not a member of the
+squad. The club is likely to get only a fraction of their valuation for a
+player on a free transfer. A manager can offer a new contract to a player only
+once in a week. He may accept or refuse the offer.
+
+THE CLUB : The following options are available.
+
+THE BOARD : The board informs the manager as to how much money he has
+available to buy players or the money the board needs quickly, i.e.
+instructing him to sell players. The board also informs the manager of their
+views on the team's and manager's performance.
+The club fixture list for the season and results.
+The club record in the league over the past five years.
+
+THE LEAGUE : The following options are available.
+List of clubs in the league.
+The division table.
+The fixture list and the results week by week.
+
+THE CUP : The cup matches are played in the same week as a league match. If
+there is no result, the result is settled by a PENALTY-SHOOT-OUT. Each team
+takes a penalty in turn. If after 5 penalties, there is a tie, the result is
+decided on the basis of sudden death. The cup menu takes you to the draw and
+the results.
+
+TACTICS : This feature allows you to design your own tactics. You can design
+and store as many tactics as you like. The screen is icon driven. The icons on
+the top are instructions operators while the icons on the right are for set
+pieces like corner kicks etc. The pitch divided in grids numb. 1 to 12 is also
+shown. Highlighting a sector by clicking the left mouse button places the ball
+in that sector. The tactics are designed for your team playing left to right
+as indicated by the arrow at the bottom. When your team switches sides at
+halftime a mirror image of the tactics with the players switched to the
+opposite wing is automatically produced by the computer. The tactics  must be
+designed with the following rules in mind.
+ 1. At kick off, the opponents must be outside the circle and each side in
+    it's own half.
+ 2. No more than 6 players of any side excluding the keeper can be inside the
+    18 yard box.
+ 3. No opposing players can be inside the 18 yard box during the goal kick.
+ 4. When a ball in grid numbers 1 or 5 or 9 no player except the keeper may be
+    present in 4, 8 and 12. Similarly if the ball is 4 or 8 or 12, no player
+    except the keeper can be positioned in 1,5 and 9.
+
+Tactics not obeying these rules cannot be saved. One of the players in the
+offending group of players will flicker if an attempt to save such tactics.
+
+To move a player, point the pointer at the player and press the left mouse
+button. Keeping the button pressed, place the pointer at the desired position
+and release the button.
+To exchange a player with another, place the pointer on the first player and
+press the RIGHT MOUSE button.The player will start flashing. Carry out the
+operation  on the player with which you want to exchange position.
+The first 2 icons on top are SAVE and LOAD respectively. The next icon is flip
+icon. This places all players on the opposite wing.The next icon is RAY TRACE.
+RAY TRACE is very useful in testing the movement of the players as successive
+sectors or set piece icons are highlighted. The manager should make sure that
+his players have the pace to get to the required positions and that they're
+line of movements have a minimum of crossings.
+The best way to learn to design is to load any of the already provided and
+experiment with them.
+
+THE COACH : The coach menu provides the manager the opportunity to train his
+squad. Following options are provided.
+
+SQUAD TRAINING : The manager having studied the player information can now
+decide to change the playing position of the player.
+
+TACTICAL TRAINING : Though any number of tactics can be designed and stored,
+the squad can only use four tactics in any one week. A list of the current
+tactics in use is displayed. An option to replace one of the current tactics
+is provided. Only one tactic in a week can be replaced. Select RETRAIN option.
+Any of the current tacticsin use can be refined by selecting MODIFY TACTICS
+option.
+
+EXTRA TRAINING : The squad can be given extra training to improve their
+performance. Too frequent a use is not advised.
+
+HAVE A BREAK : This is a morale booster for the squad. This option can only be
+exercised at the start of the week.NO other activity except playing a match is
+possible if the squad and the manager are having a break.
+
+TRANSFERS : This option is solely used for buying a player. Select the type of
+player and the price range. All available players in that category are shown.
+To give greater variety of available players, overseas players marked INT.
+Under the club heading are also included. You can look at any players details
+information by clicking the mouse button on the players name. The skill and
+ability figures are an indication only and based on the average for the div.
+and not absolute. Once you have decided on a player to buy, select BUY option
+and the name of the player.
+The asking price and your offer will appear.You can increase your offer and
+the seller may reduce his price or quit dealing if your offer is to low. The
+deal  is done only if your and the sellers prices match. If you need more
+money then you can ask the board for extra cash. You can only bid for 2
+players in a week.
+The maximum size of the squad is 24 Players.
+As an offer for your player on the transfer list can come at anytime, a
+selling screen operating as above can appear at the start of the week.
+
+MATCH DAY : The match day option takes you directly to a display on the
+opponents squad. Click mouse to look at the players details. Once again, the
+players skills and ability are based on the divisional average. The team
+details are also shown.
+
+SELECTING TEAM : The available squad and the current tactics are displayed.
+Select the tactics to be used. Select the shot number and then the player. You
+cannot exit until 13 players have been selected.
+If you are not playing, you can select to watch a normal game or an
+accelerated version of the scanner.
+When the team has been selected the LINEUP of the 2 teams and the referee
+is shown. The pitch conditions, the wind direction and strengt are shown
+before the toss. The winner of the toss has the choice to play up or down
+pitch. Now you can kickoff for the game of soccer on the pitch. On returning
+from the game, the match report, the results of the other games are shown.
+Returning from the match day to the main menu marks the end of the week.
+
+SAVE GAME : The game so far can be saved at any time to be continued later.
+
+THE MATCH
+The match is played on one of the following surfaces
+
+NORMAL - Normal playing conditions.
+
+WET    - Increased ball speed and travel. Increased chance of player injury.
+
+SOGGY  - Little ball bounce. Reduced ball travel. Reduced player pace and
+         stamina.
+
+HARD   - Increased ball bounce, speed and travel.
+
+The manager has 2 options.
+
+PLAY IN THE MATCH
+ A manager on the field playing in position or playing as a team can :
+ 1. Select type of corner  kicks.
+ 2. Assume the control of the keeper while taking goal kick or defending a
+    penalty.
+ 3. Take a penalty.
+
+WATCH THE MATCH
+ 1. Focus the camera on the ball or any player on the field. The camera
+    will follow the ball or the selected player.
+ 2. Watch an accelerated version of the game.
+
+ The manager can change tactics only at half time or while making a
+ substitution. The substitution can only be made at half time or when the ball
+ is out of play.
+
+PLAYER CONTROL
+
+MOVEMENT - The player moves in all 8 joystick directions.
+
+HEADERS  - If the ball is in the air, pressing the FIRE BUTTON will make the
+           controlled player jump. Move the joystick in the direction in which
+           you wish to head the ball when the player is in the air.
+
+TACKLE   - There are 2 types of tackles.
+
+BLOCKING TACKLE - The purpose of this tackle is to gain possession of the ball
+                  from the opponent. You cannot tackle a player from behind
+                  without fouling him.
+                  You must intercept the ball by running beside the opponent
+                  and get to the ball travelling ahead before he does or
+                  tackle from the front.
+
+SLIDING TACKLE -  This tackle can be done from any direction. A sliding tackle
+                  from behind is a foul if seen by the referee.
+
+KEEPER CONTROL
+The keeper is controlled by the computer during the game. The control is
+transferred to the player for PENALTIES AND GOAL KICKS only if the manager
+is playing.
+
+JOYSTICK DIRECTIONS
+                                JUMP
+                        DIVE     |      DIVE
+                           \            /
+                   DIVE------  CATCH  ------DIVE
+                           /            \
+                        DIVE     |      DIVE
+                               STOOP
+
+Press fire button to start the move. The longer the fire button is pressed
+the bigger the movement.
+
+The player is also given the control of the keeper for goal kicks. If he
+so desires. To keep the game flow, if the player fails to excercise control,
+the computer assumes the keeper control. The player must therefore exercise
+the option quickly and well before the computer goes into default mode.
+
+There are 9 types of goal kicks :
+
+                                HARD AHEAD
+                      HARD LEFT     |      HARD RIGHT
+                            \               /
+             MEDIUM LEFT ----- MEDIUM AHEAD ----- MEDIUM RIGHT
+                            /               \
+                      SOFT LEFT     |      SOFT RIGHT
+                                SOFT AHEAD
+
+Move the joystick to the required position before the keeper kicks or throws
+the ball.
+Press the fire button to quickly boot the ball up field to catch the opponents
+out of position or to stop keeper wasting time. Use the scanner to select the
+direction and type of goal kick.
+
+BALL CONTROL
+The ball controls have been specially designed for ease of use. In a fast
+moving game and under pressure, there is no time to remember the complicated
+joystick movements. The action has to be instinctive. You are advised to learn
+the controls by using the practise skills option in the main menu.
+
+DRIBBLE BALL - The ball travels in front of the player. The distance it
+               travels depends on the speed of the player when he made
+                contact with the ball.
+
+SHOOT BALL    - Press fire button after touching the ball shoots the ball in
+                the direction the player is facing.
+
+STOP BALL     - Press fire button before touching the ball will stop the ball
+                and give you total control.
+
+PASS BALL     - You must STOP the ball before you can pass it. Keep the fire
+                button pressed and move the joystick in the dirction you wish
+                to pass and release the fire button.
+                Releasing the fire button when joystick is centred and the
+                ball is stationary takes you back into dribble action. The
+                player will turn in the joystick direction and start dribbling
+                the ball in that direction and if the fire button is pressed
+                again, shoot in that direction. The ball will remain
+                stationary as long as joystick remains centred.
+
+CHIP BALL     - Reverse the direction of the joystick on making contact with
+                the ball.
+
+SET PIECES
+CORNER KICKS  - There is a choice of 9 corner kicks. A selection panel
+                appears. Look at the scanner to see position of your players
+                and select The option by highlighting it and pressing fire
+                button the computer takes the corner. The arrows on the ball
+                show the direction of the ball movement relative to the goal.
+                The options allow you to curl the ball in or out. A ball
+                kicked at the top will travel along the ground, in the middle
+                at half height and at the bottom to the bar height.
+
+PENALTIES     - The angle and the height of the shot are controlled enabling
+                the penalty taker to put the ball anywhere in the net.
+                There is a bar with a pointer moving rapidly from left to
+                right This indicates the horizontal position of the ball. The
+                height of the ball is determined by how long the button is
+                pressed before the contact with the ball is made. The longer
+                the fire button is held down, the higher the ball will travel
+                It is therfore possible to overshoot or hit the goalposts &
+                bar. As soon as the button is pressed, the pointer in the bar
+                freezes giving the keeper as split second chance to gauge the
+                direction of the shot and a fighting chance to save.
+                The penalty must be taken as soon as possible after the ref
+                blows the whistle.
+
+SUBSTITUTION  - Press F5 to bring player 12 on to field or F6 for player 14.
+                Captions S12 or S14 will appear on the screen to indicate that
+                the ref has noted your request. The game will stop when the
+                ref decides to let you make a substitution. The number and
+                name of the player last to touch the ball will appear. Use up
+                & down CURSOR KEYS to change the player name. Press SPACE to
+                make the substitution. the named player will be substituted
+                and the game will restart.
+
+CHANGING TACTICS
+                If you wish to make a change of tactics while making a
+                substitution, use keys F1 to F4 to select the new tactics
+                BEFORE pressing the SPACE BAR.
+
+HALF TIME     - You can make substitutions or change tactics or both at
+                halftime. Follow the instruction detailed above. Press SPACE
+                to start the next half.
+
+CAMERA        - If watching the match, the manager can focus the camera so
+                that it either follows the ball or any player on the pitch.
+                Press 'F' to toggle between the 2 options. When the option to
+                watch a player is selected, the players name and shirt # are
+                displayed. Use UP & DOWN CURSOR KEYS to change name. Use LEFT
+                & RIGHT KEYS to toggle between teams.
+
+GOAL POSTS
+To aid the playing in passing the ball quickly, a white dot appears at the top
+or bottom of the screen, depending on which half of the pitch the ball is
+present. The dot shows the position of the goal posts relative to the ball.
+
+KEYBOARD OPTIONS
+                        X = CHANGE SCANNER SIZE
+                        D = SCANNER ON/OFF
+                        P = PAUSE GAME ON/OFF
+                        Q = SOUND ON/OFF
+                        C = CROWD SOUND ONLY ON/OFF
+
+---
+Typed by LAWZ of THE POMPEY PIRATES. Edited by PARASITE.

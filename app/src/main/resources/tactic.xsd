@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2014 (x64) (http://www.altova.com) by Sebastien Senegas (private) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" attributeFormDefault="unqualified" vc:minVersion="1.1">
+	<xs:element name="tactic">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="10" maxOccurs="10">
+				<xs:element name="player" type="playerinfo"/>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required"/>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="playerinfo">
+		<xs:sequence minOccurs="20" maxOccurs="20">
+			<xs:element name="region" type="regiontype"/>
+		</xs:sequence>
+		<xs:attribute name="shirt" type="xs:integer" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="area">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="area1"/>
+			<xs:enumeration value="area2"/>
+			<xs:enumeration value="area3"/>
+			<xs:enumeration value="area4"/>
+			<xs:enumeration value="area5"/>
+			<xs:enumeration value="area6"/>
+			<xs:enumeration value="area7"/>
+			<xs:enumeration value="area8"/>
+			<xs:enumeration value="area9"/>
+			<xs:enumeration value="area10"/>
+			<xs:enumeration value="area11"/>
+			<xs:enumeration value="area12"/>
+			<xs:enumeration value="kickoff_own"/>
+			<xs:enumeration value="kickoff_def"/>
+			<xs:enumeration value="goalkick_own"/>
+			<xs:enumeration value="goalkick_def"/>			
+			<xs:enumeration value="corner1"/>
+			<xs:enumeration value="corner2"/>
+			<xs:enumeration value="corner3"/>
+			<xs:enumeration value="corner4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="regiontype">
+		<xs:sequence>
+			<xs:element name="x" type="xs:integer" default="0"/>
+			<xs:element name="y" type="xs:integer" default="0"/>
+		</xs:sequence>
+		<xs:attribute name="name" type="area" use="required"/>
+	</xs:complexType>
+</xs:schema>

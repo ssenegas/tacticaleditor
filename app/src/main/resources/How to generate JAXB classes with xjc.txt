@@ -1,0 +1,9 @@
+> & 'C:\Program Files\Java\jdk1.8.0_172\bin\xjc.exe' -d test -p com.senegas.kickoff.tactic.jaxb .\tactic.xsd
+parsing a schema...
+compiling a schema...
+com\senegas\kickoff\tactic\jaxb\Area.java
+com\senegas\kickoff\tactic\jaxb\ObjectFactory.java
+com\senegas\kickoff\tactic\jaxb\Playerinfo.java
+com\senegas\kickoff\tactic\jaxb\Regiontype.java
+com\senegas\kickoff\tactic\jaxb\Tactic.java
+

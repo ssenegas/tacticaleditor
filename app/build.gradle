@@ -26,5 +26,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.senegas.tacticeditor.App'
+    mainClass = 'org.senegas.tacticeditor.TacticEditorApp'
 }

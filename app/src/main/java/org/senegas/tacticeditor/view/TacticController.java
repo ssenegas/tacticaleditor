@@ -26,7 +26,7 @@ public class TacticController extends JPanel {
 
 	private final TacticModel model;
 	private final TaticView view;
-	private final ZoneController sectorController;
+	private final ZoneController zoneController;
 	private final Preferences prefs;
 	private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 
@@ -35,7 +35,7 @@ public class TacticController extends JPanel {
 
 		this.model = model;
         this.view = view;
-        this.sectorController = new ZoneController(this.model);
+        this.zoneController = new ZoneController(this.model);
 
         this.prefs = Preferences.userRoot().node(getClass().getName());
         this.prefs.put(LAST_USED_FOLDER, FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath());
@@ -65,8 +65,8 @@ public class TacticController extends JPanel {
         	}
         	final Tactic t = TacticUtil.read(path);
         	this.model.setTatic(t);
-        	this.sectorController.enableDisableButtons();
-        	this.sectorController.toggleGoalkickOwn();
+        	this.zoneController.enableDisableButtons();
+        	this.zoneController.toggleGoalkickOwn();
         });
 
         final JButton save = new JButton("Save");
@@ -92,6 +92,6 @@ public class TacticController extends JPanel {
         actionPanel.add(raytrace);
 
         this.add(actionPanel, BorderLayout.NORTH);
-        this.add(this.sectorController, BorderLayout.CENTER);
+        this.add(this.zoneController, BorderLayout.CENTER);
 	}
 }

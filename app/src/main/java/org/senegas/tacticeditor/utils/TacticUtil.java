@@ -9,27 +9,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.ShortBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 
 public class TacticUtil {
 
 	public static final int PITCH_WIDTH_IN_PX = 914;
 	public static final int PITCH_HEIGHT_IN_PX = 1392;
-	private static final int NUM_PLAYERS = 10;
-	private static final int NUM_SECTORS = 20;
 
 	private TacticUtil() {
-	    throw new IllegalStateException("Utility class");
-	  }
+		throw new IllegalStateException("Utility class");
+	}
 
 	public static Tactic read(Path path) {
 		try (InputStream inputStream = Files.newInputStream(path)) {
@@ -41,11 +42,10 @@ public class TacticUtil {
 	}
 
 	public static Tactic read(InputStream is) {
-
-		final Tactic result = new Tactic();
+		Map<PitchZone, Map<Integer, Point>> t = new EnumMap<>(PitchZone.class);
 
 		try (BufferedInputStream bis = new BufferedInputStream(is);
-			 ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
 
 			final byte[] bytes = new byte[10 * 20 * 2 * 2]; // 10 players x 20 areas x position x and y (2 bytes per value, so 4)
 			int count = bis.read(bytes);
@@ -56,49 +56,59 @@ public class TacticUtil {
 
 			baos.flush();
 
-			final byte[] readBytes = baos.toByteArray();
-			final short[] shortArray = new short[readBytes.length / 2];
-			ByteBuffer.wrap(readBytes).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get(shortArray);
+			// from short values create a list of points
+			final List<Point> points = extractPoints(baos.toByteArray());
 
-			final List<Point> rawPositions = IntStream.range(0, shortArray.length - 1)
-					.filter(n -> n % 2 == 0)
-					.mapToObj(i -> new Point(shortArray[i], shortArray[i + 1]))
+			List<List<Point>> pitchZonePositions = chunk(points, PitchZone.values().length).stream()
 					.collect(Collectors.toList());
 
-			final Map<Integer, List<Point>> positions = new HashMap<>();
-			int index = 0;
-			for (int i = 0; i < NUM_PLAYERS; i++) {
-				final List<Point> points = new ArrayList<>();
-				for (int j = 0; j < NUM_SECTORS; j++) {
-					points.add(rawPositions.get(index));
-					index++;
-				}
-				positions.put( i + 2, points);
+			for (PitchZone z : PitchZone.values()) {
+				IntStream.range(0, Tactic.NUMBER_OF_PLAYERS)
+				.boxed()
+				.forEach(index -> {
+					System.out.println("Player" + index + ": " + pitchZonePositions.get(index));
+
+					List<Point> pos = pitchZonePositions.get(index);
+
+					Map<Integer, Point> map = t.get(z);
+					if (map == null) {
+						map = new HashMap<>();
+						t.put(z, map);
+					}
+					map.put(index, pos.get(z.getIndex()));
+				});
 			}
-
-//			Map<Integer, List<Point>> positions = IntStream.range(2, NUMBER_OF_PLAYERS + 2) // shirt number start @ 2 to 11
-//						.boxed()
-//						.collect(Collectors.toMap(Function.identity(),
-//							i -> rawPositions.subList(i * NUMBER_OF_REGIONS,
-//									Math.min(NUMBER_OF_REGIONS * (i + 1),rawPositions.size()))));
-
-			for (final Map.Entry<Integer, List<Point>> entry : positions.entrySet()) {
-				System.out.println("Player" + entry.getKey() + " :" + entry.getValue().toString());
-			}
-
-			result.setPositions(positions);
-
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
-		return result;
+		return new Tactic(t);
+	}
+
+	/**
+	 * @param buffer
+	 * @return
+	 */
+	private static List<Point> extractPoints(final byte[] buffer) {
+		ShortBuffer shortBuffer = ByteBuffer.wrap(buffer).order(ByteOrder.BIG_ENDIAN).asShortBuffer();
+		return IntStream.iterate(0, i -> i + 2)
+				.limit(Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length)
+				.mapToObj(index -> new Point(shortBuffer.get(index), shortBuffer.get(index + 1)))
+				.collect(Collectors.toList());
+	}
+
+	private static <T> Collection<List<T>> chunk(List<T> src, int size) {
+		return IntStream.range(0, src.size())
+				.boxed()
+				.collect(Collectors.groupingBy(x -> x / size,
+						Collectors.mapping(src::get, Collectors.toList())))
+				.values();
 	}
 
 	public static short[] readBinaryTacticFile(InputStream stream) throws IOException {
 		final byte[] byteArray = stream.readAllBytes();
 
- 		// to turn bytes to shorts as either big endian or little endian.
+		// to turn bytes to shorts as either big endian or little endian.
 		final short[] shortArray = new short[byteArray.length / 2];
 		ByteBuffer.wrap(byteArray).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get(shortArray);
 

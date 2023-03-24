@@ -9,6 +9,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
@@ -16,13 +18,16 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.senegas.tacticeditor.model.PitchZone;
+import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TacticModel;
 import org.senegas.tacticeditor.utils.TacticUtil;
 
@@ -35,7 +40,6 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 
 	public static final int TACTIC_PITCH_WIDTH_IN_PX = 465;
 	public static final int TACTIC_PITCH_HEIGHT_IN_PX = 305;
-	private static final int NUMBER_OF_PLAYERS = 10;
 	private static final Font dialog = new Font("Dialog", Font.BOLD, 16);
 
 	private BufferedImage tacticPitch;
@@ -50,6 +54,22 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
+		
+		addMouseListener(new MouseAdapter() {
+            private Color background;
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                background = getBackground();
+                setBackground(Color.RED);
+                repaint();
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                setBackground(background);
+            }
+        });
 	}
 
 	@Override
@@ -120,46 +140,49 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 
 	private void drawPlayers(Graphics2D g2) {
 
-		if (this.model.getSelectedSector() == -1)
+		if (this.model.getSelectedZone() == -1)
 			return;
 
-		final List<Point> positions = getTeamPositionsForSector(this.model.getSelectedSector());
+		final Map<Integer, Point> positions = getTeamPositionsForZone(this.model.getSelectedZone());
 		if (positions.isEmpty())
 			return;
 
 		drawRayTrace(g2, positions);
-
-		for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
-			final Point position = positionToScreen(positions.get(i));
-			drawPlayer(g2, i + 2, position.x, position.y, 9);
-		}
+		
+		IntStream.range(0, Tactic.NUMBER_OF_PLAYERS) // shirt numbers
+		.boxed()
+		.forEach(index -> {
+			final Point position = positionToScreen(positions.get(index));
+			drawPlayer(g2, index + 2, position.x, position.y, 9);
+		});
 	}
 
-	private void drawRayTrace(Graphics2D g2, List<Point> positions) {
+	private void drawRayTrace(Graphics2D g2, Map<Integer, Point> positions) {
 
 		if (! this.showRayTrace)
 			return;
 
-		if (this.model.getPreviousSector() == -1)
+		if (this.model.getPreviousZoneSelection() == -1)
 			return;
 
-		final List<Point> previousPositions = getTeamPositionsForSector(this.model.getPreviousSector());
+		final Map<Integer, Point> previousPositions = getTeamPositionsForZone(this.model.getPreviousZoneSelection());
 		if (previousPositions.isEmpty())
 			return;
 
 		g2.setStroke(new BasicStroke(2));
 		g2.setColor(Color.YELLOW);
 
-		for (int i = 0; i < NUMBER_OF_PLAYERS; i++) {
-			final Point from = positionToScreen(previousPositions.get(i));
-			final Point to = positionToScreen(positions.get(i));
-
-			System.out.println("Player" + i + ": " + to);
-
-			g2.draw(new Line2D.Float(from.x, from.y, to.x, to.y));
-		}
+		IntStream.range(0, Tactic.NUMBER_OF_PLAYERS) // shirt numbers
+			.boxed()
+			.forEach(index -> {
+				final Point from = positionToScreen(previousPositions.get(index));
+				final Point to = positionToScreen(positions.get(index));
+	
+				System.out.println("Player" + index + ": " + to);
+	
+				g2.draw(new Line2D.Float(from.x, from.y, to.x, to.y));
+			});
 	}
-
 
 	/**
 	 * @param source
@@ -188,16 +211,10 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		g2.drawString(text, tx, ty);
 	}
 
-	private List<Point> getTeamPositionsForSector(int region) {
-		final List<Point> result = new ArrayList<>();
-
+	private Map<Integer, Point> getTeamPositionsForZone(int region) {
+		Map<Integer, Point> result = new HashMap<>();
 		if (this.model.getTatic() != null) {
-			final Map<Integer,List<Point>> positions = this.model.getTatic().getPositions();
-
-			for (final Integer key : positions.keySet()) {
-				final List<Point> points = positions.get(key);
-				result.add(points.get(region));
-			}
+			result = this.model.getTatic().getPositionsFor(PitchZone.getPitchZoneByIndex(region));
 		}
 		return result;
 	}

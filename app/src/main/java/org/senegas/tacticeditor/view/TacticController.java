@@ -26,7 +26,7 @@ public class TacticController extends JPanel {
 
 	private final TacticModel model;
 	private final TaticView view;
-	private final SectorController sectorController;
+	private final ZoneController sectorController;
 	private final Preferences prefs;
 	private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 
@@ -35,7 +35,7 @@ public class TacticController extends JPanel {
 
 		this.model = model;
         this.view = view;
-        this.sectorController = new SectorController(this.model);
+        this.sectorController = new ZoneController(this.model);
 
         this.prefs = Preferences.userRoot().node(getClass().getName());
         this.prefs.put(LAST_USED_FOLDER, FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath());

@@ -11,7 +11,7 @@ import javax.swing.JToggleButton;
 
 import org.senegas.tacticeditor.model.TacticModel;
 
-public class SectorController extends JPanel {
+public class ZoneController extends JPanel {
 
 	/**
 	 *
@@ -22,18 +22,18 @@ public class SectorController extends JPanel {
 	EnumMap<ButtonModel, JToggleButton> buttons = new EnumMap<> (ButtonModel.class);
 
 	private enum ButtonModel {
-		SECTOR1("1", 8, false),
-		SECTOR2("2", 9, false),
-		SECTOR3("3", 10, false),
-		SECTOR4("4", 11, false),
-		SECTOR5("5", 4, false),
-		SECTOR6("6", 5, false),
-		SECTOR7("7", 6, false),
-		SECTOR8("8", 7, false),
-		SECTOR9("9", 0, false),
-		SECTOR10("10", 1, false),
-		SECTOR11("11", 2, false),
-		SECTOR12("12", 3, false),
+		AREA1("1", 8, false),
+		AREA2("2", 9, false),
+		AREA3("3", 10, false),
+		AREA4("4", 11, false),
+		AREA5("5", 4, false),
+		AREA6("6", 5, false),
+		AREA7("7", 6, false),
+		AREA8("8", 7, false),
+		AREA9("9", 0, false),
+		AREA10("10", 1, false),
+		AREA11("11", 2, false),
+		AREA12("12", 3, false),
 		KICKOFF_OWN("Kickoff own", 12, true),
 		KICKOFF_DEF("Kickoff def", 13, true),
 		GOALKICK_OWN("Goalkick own", 15, true),
@@ -44,12 +44,12 @@ public class SectorController extends JPanel {
 		CORNER4("Corner4", 17, true);
 
 		private final String text;
-		private final Integer sector;
+		private final Integer zone;
 		private final boolean isResumeGame;
 
-		private ButtonModel(String text, Integer sector, boolean b) {
+		private ButtonModel(String text, Integer zone, boolean b) {
 			this.text = text;
-			this.sector = sector;
+			this.zone = zone;
 			this.isResumeGame = b;
 		}
 
@@ -57,8 +57,8 @@ public class SectorController extends JPanel {
 		    return this.text;
 		}
 
-		public Integer getSector() {
-		    return this.sector;
+		public Integer getZone() {
+		    return this.zone;
 		}
 
 		public boolean isResumeGame() {
@@ -70,7 +70,7 @@ public class SectorController extends JPanel {
 	    }
 	}
 
-	public SectorController(TacticModel model) {
+	public ZoneController(TacticModel model) {
 		setLayout(new GridLayout(3,4));
 
 		this.model = model;
@@ -82,13 +82,13 @@ public class SectorController extends JPanel {
 	        	this.buttons.put(bm, tb);
 	        	group.add(tb);
 	        	tb.addActionListener(e -> {
-	            	this.model.setSelectedSector(bm.getSector());
+	            	this.model.setSelectedZone(bm.getZone());
 	            	if (bm.isResumeGame())
-	            		this.model.resetPreviousSector();
+	            		this.model.resetPreviousZoneSelection();
 	            });
 			});
 
-        add(buildSectorsPanel());
+        add(buildZoneSelectorPanel());
         add(buildResumeGamePanel());
 
         enableDisableButtons();
@@ -108,7 +108,7 @@ public class SectorController extends JPanel {
 	/**
 	 * @return
 	 */
-	private JPanel buildSectorsPanel() {
+	private JPanel buildZoneSelectorPanel() {
 		final JPanel grid = new JPanel(new GridLayout(3,4));
 		ButtonModel.stream()
 			.filter(Predicate.not(ButtonModel::isResumeGame))

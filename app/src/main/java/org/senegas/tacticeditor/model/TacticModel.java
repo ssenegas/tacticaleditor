@@ -4,8 +4,7 @@ import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 public class TacticModel implements Serializable {
 
@@ -15,13 +14,13 @@ public class TacticModel implements Serializable {
 	private static final long serialVersionUID = -8048437731715191967L;
 
 	private Tactic tatic;
-	private Integer previousSector;
-	private Integer selectedSector;
+	private Integer previousZoneSelection;
+	private Integer selectedZone;
 	private final PropertyChangeSupport support;
 
 	public TacticModel() {
-		this.previousSector = -1;
-		this.selectedSector = -1;
+		this.previousZoneSelection = -1;
+		this.selectedZone = -1;
 		this.support = new PropertyChangeSupport(this);
 	}
 
@@ -42,29 +41,25 @@ public class TacticModel implements Serializable {
 		this.tatic = value;
 	}
 
-	public Integer getSelectedSector() {
-		return this.selectedSector;
+	public Integer getSelectedZone() {
+		return this.selectedZone;
 	}
 
-	public void setSelectedSector(Integer value) {
-		this.support.firePropertyChange("sector", this.selectedSector, value);
-		this.previousSector = this.selectedSector;
-		this.selectedSector = value;
-
-		final List<Point> result = new ArrayList<>();
-		for (final Integer key : this.tatic.getPositions().keySet()) {
-			final List<Point> points = this.tatic.getPositions().get(key);
-			result.add(points.get(this.selectedSector));
-		}
-
-		System.out.println("Region: " + this.selectedSector + " [sector=" + result + "]");
+	public void setSelectedZone(Integer value) {
+		this.support.firePropertyChange("zone", this.selectedZone, value);
+		this.previousZoneSelection = this.selectedZone;
+		this.selectedZone = value;
+		
+		Map<Integer, Point> positions = this.tatic.getPositionsFor(PitchZone.getPitchZoneByIndex(this.selectedZone));
+		
+		System.out.println("Zone: " + this.selectedZone + " [positions=" + positions + "]");
 	}
 
-	public Integer getPreviousSector() {
-		return this.previousSector;
+	public Integer getPreviousZoneSelection() {
+		return this.previousZoneSelection;
 	}
 
-	public void resetPreviousSector() {
-		this.previousSector = -1;
+	public void resetPreviousZoneSelection() {
+		this.previousZoneSelection = -1;
 	}
 }

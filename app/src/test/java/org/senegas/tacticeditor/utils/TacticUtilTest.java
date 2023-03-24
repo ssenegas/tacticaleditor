@@ -27,14 +27,14 @@ public class TacticUtilTest {
 
 		final Tactic t = TacticUtil.read(path);
 
-		assertEquals(10, t.getPositions().entrySet().size());
+		assertEquals(20, t.getPositions().entrySet().size());
 	}
 
 	@Test
 	public void shouldReturnCorrectTacticWhenReadingInputStream() {
 		final Tactic t = TacticUtil.read(this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac"));
 
-		assertEquals(10, t.getPositions().entrySet().size());
+		assertEquals(20, t.getPositions().entrySet().size());
 	}
 
 	@Test

@@ -52,7 +52,7 @@ public class TacticModel implements Serializable {
 		
 		Map<Integer, Point> positions = this.tatic.getPositionsFor(PitchZone.getPitchZoneByIndex(this.selectedZone));
 		
-		System.out.println("Zone: " + this.selectedZone + " [positions=" + positions + "]");
+		System.out.println("Zone: " + PitchZone.getPitchZoneByIndex(this.selectedZone) + " [positions=" + positions + "]");
 	}
 
 	public Integer getPreviousZoneSelection() {

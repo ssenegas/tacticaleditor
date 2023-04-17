@@ -39,7 +39,6 @@ public class TacticModel extends AbstractModel implements Serializable {
 	}
 
 	public void setSelectedZone(Integer zone) {
-		
 		Integer oldSelectedZone = this.selectedZone;
 		this.previousZoneSelection = this.selectedZone;
 		this.selectedZone = zone;

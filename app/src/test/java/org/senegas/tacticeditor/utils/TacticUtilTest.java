@@ -12,14 +12,9 @@ import java.nio.file.Path;
 
 import org.junit.Test;
 import org.senegas.tacticeditor.model.Tactic;
+import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtilTest {
-
-	private static final int PITCH_WIDTH_IN_PX = 914;
-	private static final int PITCH_HEIGHT_IN_PX = 1392;
-	private static final int TACTIC_PITCH_WIDTH_IN_PX = 465;
-	private static final int TACTIC_PITCH_HEIGHT_IN_PX = 305;
-
 
 	@Test
 	public void shouldReturnCorrectTacticWhenReadingFromPath() {
@@ -48,19 +43,19 @@ public class TacticUtilTest {
 
 	@Test
 	public void shouldReturnUpperRightCoordinate() {
-		final Dimension d = new Dimension(TACTIC_PITCH_WIDTH_IN_PX, TACTIC_PITCH_HEIGHT_IN_PX);
+		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
 
-		final Point result = TacticUtil.transformTo(d, new Point(PITCH_WIDTH_IN_PX, PITCH_HEIGHT_IN_PX));
+		final Point result = TacticUtil.transformTo(d, new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX));
 
-		assertThat(result, is(new Point(TACTIC_PITCH_WIDTH_IN_PX + 10, 0))); // +10 for the offset
+		assertThat(result, is(new Point(TaticView.TACTIC_PITCH_WIDTH_IN_PX + 10, 0))); // +10 for the offset
 	}
 
 	@Test
 	public void shouldReturnCorrectOrigin() {
-		final Dimension d = new Dimension(TACTIC_PITCH_WIDTH_IN_PX, TACTIC_PITCH_HEIGHT_IN_PX);
+		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
 
 		final Point result = TacticUtil.transformTo(d, new Point(0, 0));
 
-		assertThat(result, is(new Point(0 + 10, TACTIC_PITCH_HEIGHT_IN_PX)));  // +10 for the offset
+		assertThat(result, is(new Point(0 + 10, TaticView.TACTIC_PITCH_HEIGHT_IN_PX)));  // +10 for the offset
 	}
 }

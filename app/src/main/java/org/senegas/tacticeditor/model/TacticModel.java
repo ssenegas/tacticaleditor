@@ -6,51 +6,47 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Map;
 
-public class TacticModel implements Serializable {
+public class TacticModel extends AbstractModel implements Serializable {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = -8048437731715191967L;
 
-	private Tactic tatic;
+	private Tactic tactic;
 	private Integer previousZoneSelection;
 	private Integer selectedZone;
-	private final PropertyChangeSupport support;
 
 	public TacticModel() {
+		super();
 		this.previousZoneSelection = -1;
 		this.selectedZone = -1;
-		this.support = new PropertyChangeSupport(this);
-	}
-
-	public void addPropertyChangeListener(PropertyChangeListener pcl) {
-		this.support.addPropertyChangeListener(pcl);
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener pcl) {
-		this.support.removePropertyChangeListener(pcl);
 	}
 
 	public Tactic getTatic() {
-		return this.tatic;
+		return this.tactic;
 	}
 
-	public void setTatic(Tactic value) {
-		this.support.firePropertyChange("tactic", this.tatic, value);
-		this.tatic = value;
+	public void setTatic(Tactic t) {
+		Tactic oldTactic = this.tactic;
+		this.tactic = t;
+		
+		firePropertyChange("tactic", oldTactic, t);
 	}
 
 	public Integer getSelectedZone() {
 		return this.selectedZone;
 	}
 
-	public void setSelectedZone(Integer value) {
-		this.support.firePropertyChange("zone", this.selectedZone, value);
-		this.previousZoneSelection = this.selectedZone;
-		this.selectedZone = value;
+	public void setSelectedZone(Integer zone) {
 		
-		Map<Integer, Point> positions = this.tatic.getPositionsFor(PitchZone.getPitchZoneByIndex(this.selectedZone));
+		Integer oldSelectedZone = this.selectedZone;
+		this.previousZoneSelection = this.selectedZone;
+		this.selectedZone = zone;
+		
+		firePropertyChange("zone", oldSelectedZone, zone);
+		
+		Map<Integer, Point> positions = this.tactic.getPositionsFor(PitchZone.getPitchZoneByIndex(this.selectedZone));
 		
 		System.out.println("Zone: " + PitchZone.getPitchZoneByIndex(this.selectedZone) + " [positions=" + positions + "]");
 	}

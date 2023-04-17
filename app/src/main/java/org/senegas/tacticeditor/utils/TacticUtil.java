@@ -3,6 +3,7 @@ package org.senegas.tacticeditor.utils;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.stream.IntStream;
 
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
+import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtil {
 
@@ -115,7 +117,14 @@ public class TacticUtil {
 		return shortArray;
 	}
 
-	public static Point transformTo(Dimension d, Point source) {
+	/**
+	 * moving from world-coordinates to screen-coordinates
+	 * @param worldPosition
+	 * @return screenPosition
+	 */
+	public static Point project(Point worldPosition) {
+		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
+		
 		final AffineTransform rotateTranslate = AffineTransform.getQuadrantRotateInstance(-1);
 		rotateTranslate.translate(-PITCH_WIDTH_IN_PX, 0);
 
@@ -123,10 +132,46 @@ public class TacticUtil {
 		final double sy = d.getHeight() / PITCH_WIDTH_IN_PX;
 		final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
 
+		// +10 pixels for the offset behind the goal in the tactic pitch image
 		final AffineTransform translate = AffineTransform.getTranslateInstance(10, 0);
 
 		final Point retValue = new Point();
-		retValue.setLocation(translate.transform(scale.transform(rotateTranslate.transform(source, null), null), null));
+		
+		Point2D transform1 = rotateTranslate.transform(worldPosition, null);
+		Point2D transform2 = scale.transform(transform1, null);
+		Point2D transform3 = translate.transform(transform2, null);
+		
+		retValue.setLocation(translate.transform(scale.transform(rotateTranslate.transform(worldPosition, null), null), null));
+
+		return retValue;
+	}
+	
+	/**
+	 * moving from screen-coordinates to world-coordinates
+	 * @param screenPosition
+	 * @return worldPosition
+	 */
+	public static Point unproject(Point screenPosition) {
+		final Dimension d = new Dimension(PITCH_WIDTH_IN_PX, PITCH_HEIGHT_IN_PX);
+		
+		final AffineTransform rotateTranslate = AffineTransform.getQuadrantRotateInstance(1);
+		rotateTranslate.translate(0, -PITCH_WIDTH_IN_PX);
+
+		final double sx = d.getHeight() / TaticView.TACTIC_PITCH_WIDTH_IN_PX;
+		final double sy = d.getWidth() / TaticView.TACTIC_PITCH_HEIGHT_IN_PX;
+		
+		final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
+
+		// -10 pixels for the offset behind the goal in the tactic pitch image
+		final AffineTransform translate = AffineTransform.getTranslateInstance(-10, 0);
+
+		final Point retValue = new Point();
+		
+		Point2D transform1 = translate.transform(screenPosition, null);
+		Point2D transform2 = scale.transform(transform1, null);
+		Point2D transform3 = rotateTranslate.transform(transform2, null);
+		
+		retValue.setLocation(rotateTranslate.transform(scale.transform(translate.transform(screenPosition, null), null), null));
 
 		return retValue;
 	}

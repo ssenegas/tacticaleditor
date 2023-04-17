@@ -21,6 +21,8 @@ public class MainPanel extends JPanel {
         final TacticController  controller = new TacticController(model, view);
 
         model.addPropertyChangeListener(view);
+        // register controller as the listener to components in the view
+        view.registerListener(controller);
 
         this.add(view, BorderLayout.CENTER);
         this.add(controller, BorderLayout.EAST);

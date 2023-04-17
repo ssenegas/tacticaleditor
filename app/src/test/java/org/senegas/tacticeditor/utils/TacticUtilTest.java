@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,20 +41,48 @@ public class TacticUtilTest {
 	}
 
 	@Test
-	public void shouldReturnUpperRightCoordinate() {
-		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
+	public void shouldLowerRightWorldPositionReturnProjectedLowerRightScreenCoordinate() {
+		// Given
+		Point lowerRightWorldPosition = new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX);
+		
+		// When
+		final Point result = TacticUtil.project(lowerRightWorldPosition);
 
-		final Point result = TacticUtil.transformTo(d, new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX));
-
-		assertThat(result, is(new Point(TaticView.TACTIC_PITCH_WIDTH_IN_PX + 10, 0))); // +10 for the offset
+		// Then
+		assertThat(result, is(new Point(TaticView.TACTIC_PITCH_WIDTH_IN_PX + 10, 0))); // +10 pixels for the offset behind the goal
 	}
 
 	@Test
-	public void shouldReturnCorrectOrigin() {
-		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
+	public void shouldReturnProjectedLowerLeftScreenCoordinateWhenUpperLeftWorldPositionIsGiven() {
+		// Given
+		Point upperLeftWorldPosition = new Point(0, 0);
+		
+		// When
+		final Point result = TacticUtil.project(upperLeftWorldPosition);
 
-		final Point result = TacticUtil.transformTo(d, new Point(0, 0));
-
-		assertThat(result, is(new Point(0 + 10, TaticView.TACTIC_PITCH_HEIGHT_IN_PX)));  // +10 for the offset
+		// Then
+		assertThat(result, is(new Point(0 + 10, TaticView.TACTIC_PITCH_HEIGHT_IN_PX)));
+	}
+	
+	@Test
+	public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		Point lowerLeftScreenPosition = new Point(10, 305);
+		
+		// When
+		final Point result = TacticUtil.unproject(lowerLeftScreenPosition);
+		
+		// Then
+		assertThat(result, is(new Point(0, 0)));
+	}
+	
+	@Test
+	public void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		Point upperRightLeftScreenPosition = new Point(475, 0);
+		
+		// When
+		final Point result = TacticUtil.unproject(upperRightLeftScreenPosition);
+		
+		// Then
+		assertThat(result, is(new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX)));
 	}
 }

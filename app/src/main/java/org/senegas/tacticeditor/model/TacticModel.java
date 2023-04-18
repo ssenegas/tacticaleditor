@@ -1,8 +1,6 @@
 package org.senegas.tacticeditor.model;
 
 import java.awt.Point;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -27,11 +25,11 @@ public class TacticModel extends AbstractModel implements Serializable {
 		return this.tactic;
 	}
 
-	public void setTatic(Tactic t) {
+	public void setTatic(Tactic tactic) {
 		Tactic oldTactic = this.tactic;
-		this.tactic = t;
+		this.tactic = tactic;
 		
-		firePropertyChange("tactic", oldTactic, t);
+		firePropertyChange("tactic", oldTactic, tactic);
 	}
 
 	public Integer getSelectedZone() {

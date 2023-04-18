@@ -128,7 +128,6 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 		System.out.println("Clicked point: " + event.getPoint() + " World point: " + worldPosition);
 		
 		for (Point point : positions.values()) {
-			
 			System.out.println("Checked point: " + point);
             if (worldPosition.getX() >= point.x - 8 && worldPosition.getX() <= point.x + 8 &&
             		worldPosition.getY() >= point.y - 8 && worldPosition.getY() <= point.y + 8) {
@@ -150,7 +149,7 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	}
 	
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent event) {
 		// stop moving the selected point
 		this.selectedPoint = null;
 	}
@@ -171,7 +170,7 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	}
 	
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mouseEntered(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

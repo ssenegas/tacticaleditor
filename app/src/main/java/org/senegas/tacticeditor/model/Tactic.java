@@ -17,13 +17,14 @@ public class Tactic implements Serializable {
 	private final Map<PitchZone, Map<Integer, Point>> teamPositionPerZone;
 
 	/**
-	 * @param positions
+	 * Constructor
 	 */
 	public Tactic() {
 		this(new EnumMap<>(PitchZone.class));
 	}
 
 	/**
+	 * Constructor
 	 * @param positions
 	 */
 	public Tactic(Map<PitchZone, Map<Integer, Point>> positions) {
@@ -34,8 +35,8 @@ public class Tactic implements Serializable {
 		return this.teamPositionPerZone;
 	}
 	
-	public Map<Integer, Point> getPositionsFor(PitchZone z) {
-		return this.teamPositionPerZone.get(z);
+	public Map<Integer, Point> getPositionsFor(PitchZone zone) {
+		return this.teamPositionPerZone.get(zone);
 	}
 
 	@Override

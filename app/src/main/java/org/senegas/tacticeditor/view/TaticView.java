@@ -43,7 +43,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 	public static final int TACTIC_PITCH_HEIGHT_IN_PX = 305;
 	private static final Font dialog = new Font("Dialog", Font.BOLD, 14);
 
-	private BufferedImage tacticPitch;
+	private transient BufferedImage tacticPitch;
 	private final TacticModel model;
 	private boolean showRayTrace = false;
 
@@ -55,22 +55,6 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
-		
-//		addMouseListener(new MouseAdapter() {
-//            private Color background;
-//
-//            @Override
-//            public void mousePressed(MouseEvent e) {
-//                background = getBackground();
-//                setBackground(Color.RED);
-//                repaint();
-//            }
-//
-//            @Override
-//            public void mouseReleased(MouseEvent e) {
-//                setBackground(background);
-//            }
-//        });
 	}
 
 	@Override
@@ -103,7 +87,6 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		drawPitch(g);
 		drawTactic(g);
 	}
@@ -122,7 +105,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		final Graphics2D g2 = (Graphics2D) g;
 		final AffineTransform saveXform = g2.getTransform();
 
-		drawReferencePoints(g2);
+		//drawReferencePoints(g2);
 		drawPlayers(g2);
 
 		g2.dispose();

@@ -18,8 +18,8 @@ public enum PitchZone {
 	 * Constructor
 	 * @param name
 	 */
-	PitchZone(int idx, String name) {
-		this.index = idx;
+	PitchZone(int index, String name) {
+		this.index = index;
 		this.name = name;
 	}
 
@@ -37,7 +37,7 @@ public enum PitchZone {
 		return name;
 	}
 	
-	static public PitchZone getPitchZoneByIndex(int index) {
+	public static PitchZone getPitchZoneByIndex(int index) {
 		for (PitchZone z : PitchZone.values()) {
 			if (z.getIndex() == index) {
 				return z;

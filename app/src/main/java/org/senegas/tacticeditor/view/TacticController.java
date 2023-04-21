@@ -37,7 +37,6 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	private final Preferences prefs;
 	private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 	
-	private Point selectedPoint = null;
     private Point draggedPoint = null; // the point that is currently being dragged
     private Point offset = new Point(); // the offset between the mouse click and the top-left corner of the dragged point
 

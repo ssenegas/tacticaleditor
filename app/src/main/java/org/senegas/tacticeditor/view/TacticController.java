@@ -38,6 +38,9 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 	
 	private Point selectedPoint = null;
+    private Point draggedPoint = null; // the point that is currently being dragged
+    private Point offset = new Point(); // the offset between the mouse click and the top-left corner of the dragged point
+
 
 	public TacticController(TacticModel model, TaticView view) {
 		super(new BorderLayout());
@@ -115,9 +118,9 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 		// To be implemented
 	}
 
+
 	@Override
-	public void mouseClicked(MouseEvent event) {
-		
+	public void mousePressed(MouseEvent event) {
 		if (model.getSelectedZone() == -1) {
 			return;
 		}
@@ -125,59 +128,47 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 		Map<Integer, Point> positions = model.getTatic().getPositionsFor(PitchZone.getPitchZoneByIndex(model.getSelectedZone()));
 		
 		Point worldPosition = TacticUtil.unproject(event.getPoint());
-		System.out.println("Clicked point: " + event.getPoint() + " World point: " + worldPosition);
+		System.out.println("clicked point: " + event.getPoint() + " world point: " + worldPosition);
 		
 		for (Point point : positions.values()) {
-			System.out.println("Checked point: " + point);
+			System.out.println("checked point: " + point);
             if (worldPosition.getX() >= point.x - 8 && worldPosition.getX() <= point.x + 8 &&
             		worldPosition.getY() >= point.y - 8 && worldPosition.getY() <= point.y + 8) {
-    			System.out.println("Selected!");
-    			this.selectedPoint = point;
+    			System.out.println("found!");
+    			this.draggedPoint = point;
+    			this.offset.setLocation(worldPosition.getX() - point.x, worldPosition.getY() - point.y);
                 break;
             }
-        }
-	}
-
-	@Override
-	public void mousePressed(MouseEvent event) {
-		// start moving the selected point
-        if (this.selectedPoint != null) {
-        	Point worldPosition = TacticUtil.unproject(event.getPoint());
-            this.selectedPoint.setLocation(worldPosition.getX(), worldPosition.getY());
-            this.view.repaint();
         }
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		// stop moving the selected point
-		this.selectedPoint = null;
+		// stop dragging the point
+		System.out.println("stop dragging the point!");
+		System.out.println("dragged point: " + this.draggedPoint);
+        this.draggedPoint = null;
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent event) {
-		// move the selected point
-        if (this.selectedPoint != null) {
+		// move the dragged point
+        if (this.draggedPoint != null) {
         	Point worldPosition = TacticUtil.unproject(event.getPoint());
-            this.selectedPoint.setLocation(worldPosition.getX(), worldPosition.getY());
+            this.draggedPoint.setLocation(worldPosition.getX() - this.offset.x, worldPosition.getY() - this.offset.y);
             this.view.repaint();
         }
 	}
 	
 	@Override
-	public void mouseMoved(MouseEvent event) {
-		// TODO Auto-generated method stub
-	}
+	public void mouseClicked(MouseEvent event) {}
 	
 	@Override
-	public void mouseEntered(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseMoved(MouseEvent event) {}
+	
+	@Override
+	public void mouseEntered(MouseEvent event) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 }

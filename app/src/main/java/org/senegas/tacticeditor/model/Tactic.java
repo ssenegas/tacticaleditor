@@ -2,12 +2,15 @@ package org.senegas.tacticeditor.model;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.security.InvalidParameterException;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public class Tactic implements Serializable {
 	
 	public static final int NUMBER_OF_PLAYERS = 10;
+	public static final List<Integer> SHIRTS = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
 
 	/**
 	 *
@@ -37,6 +40,13 @@ public class Tactic implements Serializable {
 	
 	public Map<Integer, Point> getPositionsFor(PitchZone zone) {
 		return this.teamPositionPerZone.get(zone);
+	}
+	
+	public Point getPositionFor(PitchZone zone, Integer shirt) {
+		if (! SHIRTS.contains(shirt)) {
+			throw new InvalidParameterException();
+		}
+		return this.teamPositionPerZone.get(zone).get(shirt);
 	}
 
 	@Override

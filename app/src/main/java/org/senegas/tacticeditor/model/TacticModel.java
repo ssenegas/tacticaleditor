@@ -43,9 +43,9 @@ public class TacticModel extends AbstractModel implements Serializable {
 		
 		firePropertyChange("zone", oldSelectedZone, zone);
 		
-		Map<Integer, Point> positions = this.tactic.getPositionsFor(PitchZone.getPitchZoneByIndex(this.selectedZone));
+		Map<Integer, Point> positions = this.tactic.getPositionsFor(PitchZone.of(this.selectedZone));
 		
-		System.out.println("Zone: " + PitchZone.getPitchZoneByIndex(this.selectedZone) + " [positions=" + positions + "]");
+		System.out.println("Zone: " + PitchZone.of(this.selectedZone) + " [positions=" + positions + "]");
 	}
 
 	public Integer getPreviousZoneSelection() {

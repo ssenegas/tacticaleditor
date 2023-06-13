@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
+import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.TacticModel;
 
 public class ZoneController extends JPanel {
@@ -22,34 +23,34 @@ public class ZoneController extends JPanel {
 	EnumMap<ButtonModel, JToggleButton> buttons = new EnumMap<> (ButtonModel.class);
 
 	private enum ButtonModel {
-		AREA1("1", 8, false),
-		AREA2("2", 9, false),
-		AREA3("3", 10, false),
-		AREA4("4", 11, false),
-		AREA5("5", 4, false),
-		AREA6("6", 5, false),
-		AREA7("7", 6, false),
-		AREA8("8", 7, false),
-		AREA9("9", 0, false),
-		AREA10("10", 1, false),
-		AREA11("11", 2, false),
-		AREA12("12", 3, false),
-		KICKOFF_OWN("Kickoff own", 12, true),
-		KICKOFF_DEF("Kickoff def", 13, true),
-		GOALKICK_OWN("Goalkick own", 15, true),
-		GOALKICK_DEF("Goalkick def", 14, true),
-		CORNER1("Corner1", 18, true),
-		CORNER2("Corner2", 19, true),
-		CORNER3("Corner3", 16, true),
-		CORNER4("Corner4", 17, true);
+		AREA1("1", PitchZone.AREA1, false),
+		AREA2("2", PitchZone.AREA2, false),
+		AREA3("3", PitchZone.AREA3, false),
+		AREA4("4", PitchZone.AREA4, false),
+		AREA5("5", PitchZone.AREA5, false),
+		AREA6("6", PitchZone.AREA6, false),
+		AREA7("7", PitchZone.AREA7, false),
+		AREA8("8", PitchZone.AREA8, false),
+		AREA9("9", PitchZone.AREA9, false),
+		AREA10("10", PitchZone.AREA10, false),
+		AREA11("11", PitchZone.AREA11, false),
+		AREA12("12", PitchZone.AREA12, false),
+		KICKOFF_OWN("Kickoff own", PitchZone.KICKOFF_OWN, true),
+		KICKOFF_DEF("Kickoff def", PitchZone.KICKOFF_DEF, true),
+		GOALKICK_OWN("Goalkick own", PitchZone.GOALKICK_OWN, true),
+		GOALKICK_DEF("Goalkick def", PitchZone.GOALKICK_DEF, true),
+		CORNER1("Corner1", PitchZone.CORNER1, true),
+		CORNER2("Corner2", PitchZone.CORNER2, true),
+		CORNER3("Corner3", PitchZone.CORNER3, true),
+		CORNER4("Corner4", PitchZone.CORNER4, true);
 
 		private final String text;
-		private final Integer zone;
+		private final PitchZone pitchZone;
 		private final boolean isResumeGame;
 
-		private ButtonModel(String text, Integer zone, boolean b) {
+		private ButtonModel(String text, PitchZone pitchZone, boolean b) {
 			this.text = text;
-			this.zone = zone;
+			this.pitchZone = pitchZone;
 			this.isResumeGame = b;
 		}
 
@@ -58,7 +59,7 @@ public class ZoneController extends JPanel {
 		}
 
 		public Integer getZone() {
-		    return this.zone;
+		    return this.pitchZone.getIndex();
 		}
 
 		public boolean isResumeGame() {

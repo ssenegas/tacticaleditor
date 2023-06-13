@@ -124,7 +124,7 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 			return;
 		}
 		
-		Map<Integer, Point> positions = model.getTatic().getPositionsFor(PitchZone.getPitchZoneByIndex(model.getSelectedZone()));
+		Map<Integer, Point> positions = model.getTatic().getPositionsFor(PitchZone.of(model.getSelectedZone()));
 		
 		Point worldPosition = TacticUtil.unproject(event.getPoint());
 		System.out.println("clicked point: " + event.getPoint() + " world point: " + worldPosition);

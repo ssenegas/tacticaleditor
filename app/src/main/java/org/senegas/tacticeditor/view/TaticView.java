@@ -27,6 +27,7 @@ import java.util.stream.IntStream;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TacticModel;
@@ -39,8 +40,8 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int TACTIC_PITCH_WIDTH_IN_PX = 465;
-	public static final int TACTIC_PITCH_HEIGHT_IN_PX = 305;
+	public static final int PITCH_WIDTH_IN_PIXEL = 465;
+	public static final int PITCH_HEIGHT_IN_PIXEL = 305;
 	private static final Font dialog = new Font("Dialog", Font.BOLD, 14);
 
 	private transient BufferedImage tacticPitch;
@@ -105,7 +106,8 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		final Graphics2D g2 = (Graphics2D) g;
 		final AffineTransform saveXform = g2.getTransform();
 
-		//drawReferencePoints(g2);
+		// for debugging only
+		// drawReferencePoints(g2);
 		drawPlayers(g2);
 
 		g2.dispose();
@@ -114,9 +116,9 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 
 	private void drawReferencePoints(Graphics2D g2) {
 		final Point p1 = new Point(0, 0);
-		final Point p2 = new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX);
-		final Point p3 = new Point(0, TacticUtil.PITCH_HEIGHT_IN_PX);
-		final Point p4 = new Point(TacticUtil.PITCH_WIDTH_IN_PX, 0);
+		final Point p2 = new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL);
+		final Point p3 = new Point(0, PitchConstants.PITCH_HEIGHT_IN_PIXEL);
+		final Point p4 = new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, 0);
 
 		final List<Point> points = List.of(p1, p2, p3, p4);
 		final int radius = 8;
@@ -142,11 +144,10 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 
 		drawRayTrace(g2, positions);
 		
-		IntStream.range(0, Tactic.NUMBER_OF_PLAYERS) // shirt numbers
-		.boxed()
-		.forEach(index -> {
-			final Point position = TacticUtil.project(positions.get(index));
-			drawPlayerShirt(g2, index + 2, position.x, position.y, 8);
+		Tactic.SHIRTS.stream()
+		.forEach(shirt -> {
+			final Point position = TacticUtil.project(positions.get(shirt));
+			drawPlayerShirt(g2, shirt, position.x, position.y, 8);
 		});
 	}
 
@@ -166,13 +167,12 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		g2.setStroke(new BasicStroke(1.5f));
 		g2.setColor(Color.YELLOW);
 
-		IntStream.range(0, Tactic.NUMBER_OF_PLAYERS) // shirt numbers
-			.boxed()
-			.forEach(index -> {
-				final Point from = TacticUtil.project(previousPositions.get(index));
-				final Point to = TacticUtil.project(positions.get(index));
+		Tactic.SHIRTS.stream()
+			.forEach(shirt -> {
+				final Point from = TacticUtil.project(previousPositions.get(shirt));
+				final Point to = TacticUtil.project(positions.get(shirt));
 	
-				System.out.println("Player" + index + ": " + to);
+				System.out.println("Player" + shirt + ": " + to);
 	
 				g2.draw(new Line2D.Float(from.x, from.y, to.x, to.y));
 			});
@@ -223,7 +223,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 	private Map<Integer, Point> getTeamPositionsForZone(int region) {
 		Map<Integer, Point> result = new HashMap<>();
 		if (this.model.getTatic() != null) {
-			result = this.model.getTatic().getPositionsFor(PitchZone.getPitchZoneByIndex(region));
+			result = this.model.getTatic().getPositionsFor(PitchZone.of(region));
 		}
 		return result;
 	}

@@ -8,8 +8,11 @@ import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.Map;
 
 import org.junit.Test;
+import org.senegas.tacticeditor.model.PitchConstants;
+import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
@@ -37,52 +40,84 @@ public class TacticUtilTest {
 
 		final short[] readBinaryTacticFile = TacticUtil.readBinaryTacticFile(is);
 
-		assertEquals(1, 1);
+		assertEquals(490, readBinaryTacticFile.length);
 	}
 
 	@Test
-	public void shouldLowerRightWorldPositionReturnProjectedLowerRightScreenCoordinate() {
-		// Given
-		Point lowerRightWorldPosition = new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX);
+	public void shouldReturnProjectedLowerRightScreenPositionWhenLowerLeftWorldPositionIsGiven() {
+		// given
+		Point lowerLeftWorldPosition = new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL);
+		Point expected = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, // +10 pixels for the offset behind the goal
+				TaticView.PITCH_HEIGHT_IN_PIXEL);
 		
-		// When
-		final Point result = TacticUtil.project(lowerRightWorldPosition);
+		// when
+		final Point result = TacticUtil.project(lowerLeftWorldPosition);
 
-		// Then
-		assertThat(result, is(new Point(TaticView.TACTIC_PITCH_WIDTH_IN_PX + 10, 0))); // +10 pixels for the offset behind the goal
+		// then
+		assertThat(result, is(expected)); 
 	}
 
 	@Test
-	public void shouldReturnProjectedLowerLeftScreenCoordinateWhenUpperLeftWorldPositionIsGiven() {
-		// Given
-		Point upperLeftWorldPosition = new Point(0, 0);
+	public void shouldReturnProjectedUpperRightScreenPositionWhenOriginUpperRightWorldPositionIsGiven() {
+		// given
+		Point originUpperRightWorldPosition = new Point(0, 0);
+		Point expected = new Point(0 + 10, // +10 pixels for the offset behind the goal
+				0);
 		
-		// When
-		final Point result = TacticUtil.project(upperLeftWorldPosition);
+		// when
+		final Point result = TacticUtil.project(originUpperRightWorldPosition);
 
-		// Then
-		assertThat(result, is(new Point(0 + 10, TaticView.TACTIC_PITCH_HEIGHT_IN_PX)));
+		// then
+		assertThat(result, is(expected));
 	}
 	
 	@Test
-	public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+	public void shouldReturnLowerLeftWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		// given
 		Point lowerLeftScreenPosition = new Point(10, 305);
 		
-		// When
+		// when
 		final Point result = TacticUtil.unproject(lowerLeftScreenPosition);
 		
-		// Then
-		assertThat(result, is(new Point(0, 0)));
+		// then
+		assertThat(result, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, 0)));
 	}
 	
 	@Test
 	public void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
-		Point upperRightLeftScreenPosition = new Point(475, 0);
+		Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, 0);
 		
-		// When
+		// when
 		final Point result = TacticUtil.unproject(upperRightLeftScreenPosition);
 		
-		// Then
-		assertThat(result, is(new Point(TacticUtil.PITCH_WIDTH_IN_PX, TacticUtil.PITCH_HEIGHT_IN_PX)));
+		// then
+		assertThat(result, is(new Point(0, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
+	}
+	
+	@Test
+	public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, TaticView.PITCH_HEIGHT_IN_PIXEL);
+		
+		// when
+		final Point result = TacticUtil.unproject(upperRightLeftScreenPosition);
+		
+		// then
+		assertThat(result, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
+	}
+	
+	@Test
+	public void shouldReturnCorrectPositionForKickOffOwnPitchZone() {
+		// given
+		final Path path = Path.of("src/test/resources/tactics/5-3-2.tac");
+		final Integer shirt = 2;
+		final Tactic t = TacticUtil.read(path);
+		final Point expected = new Point(666, 345);
+
+		// when
+		Map<Integer, Point> positionsForKickoffOwn = t.getPositionsFor(PitchZone.KICKOFF_OWN);
+		Point result = positionsForKickoffOwn.get(shirt);
+		
+		// then
+		assertThat(result, is(expected));
 	}
 }

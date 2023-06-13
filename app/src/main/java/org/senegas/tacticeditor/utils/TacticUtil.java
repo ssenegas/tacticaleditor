@@ -21,14 +21,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtil {
-
-	public static final int PITCH_WIDTH_IN_PX = 914;
-	public static final int PITCH_HEIGHT_IN_PX = 1392;
 
 	private TacticUtil() {
 		throw new IllegalStateException("Utility class");
@@ -64,20 +62,25 @@ public class TacticUtil {
 			List<List<Point>> pitchZonePositions = chunk(points, PitchZone.values().length).stream()
 					.collect(Collectors.toList());
 
-			for (PitchZone z : PitchZone.values()) {
+			for (PitchZone pz : PitchZone.values()) {
+				System.out.println("PitchZone: " + pz.getName());
 				IntStream.range(0, Tactic.NUMBER_OF_PLAYERS)
 				.boxed()
 				.forEach(index -> {
-					System.out.println("Player" + index + ": " + pitchZonePositions.get(index));
+					//System.out.println("Player" + index + ": " + pitchZonePositions.get(index));
 
 					List<Point> pos = pitchZonePositions.get(index);
 
-					Map<Integer, Point> map = t.get(z);
+					Map<Integer, Point> map = t.get(pz);
 					if (map == null) {
 						map = new HashMap<>();
-						t.put(z, map);
+						t.put(pz, map);
 					}
-					map.put(index, pos.get(z.getIndex()));
+					
+					Integer key = mapToShirt(index);
+					map.put(key, pos.get(pz.getIndex()));
+					
+					System.out.println("Player " + key + ": " + map.get(key));
 				});
 			}
 		} catch (final IOException e) {
@@ -85,6 +88,16 @@ public class TacticUtil {
 		}
 
 		return new Tactic(t);
+	}
+	
+	/**
+	 * Map an index to the given shirt in tactic
+	 * 
+	 * @param index from 0 to 10
+	 * @return shirt number for tactics
+	 */
+	static private Integer mapToShirt(int index) {
+		return Tactic.SHIRTS.get(index);
 	}
 
 	/**
@@ -116,63 +129,62 @@ public class TacticUtil {
 
 		return shortArray;
 	}
-
+	
 	/**
-	 * moving from world-coordinates to screen-coordinates
+	 * projecting point from world-coordinates to screen-coordinates
 	 * @param worldPosition
 	 * @return screenPosition
 	 */
 	public static Point project(Point worldPosition) {
-		final Dimension d = new Dimension(TaticView.TACTIC_PITCH_WIDTH_IN_PX, TaticView.TACTIC_PITCH_HEIGHT_IN_PX);
+		final Dimension d = new Dimension(TaticView.PITCH_WIDTH_IN_PIXEL, TaticView.PITCH_HEIGHT_IN_PIXEL);
 		
-		final AffineTransform rotateTranslate = AffineTransform.getQuadrantRotateInstance(-1);
-		rotateTranslate.translate(-PITCH_WIDTH_IN_PX, 0);
-
-		final double sx = d.getWidth() / PITCH_HEIGHT_IN_PX;
-		final double sy = d.getHeight() / PITCH_WIDTH_IN_PX;
+		final AffineTransform flipOverY = AffineTransform.getScaleInstance(-1, 1);
+		Point2D transform = flipOverY.transform(worldPosition, null);
+		
+		final AffineTransform rotate = AffineTransform.getQuadrantRotateInstance(-1);
+		transform = rotate.transform(transform, null);
+		
+		final double sx = d.getWidth() / PitchConstants.PITCH_HEIGHT_IN_PIXEL;
+		final double sy = d.getHeight() / PitchConstants.PITCH_WIDTH_IN_PIXEL;
 		final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
-
-		// +10 pixels for the offset behind the goal in the tactic pitch image
+		
+		transform = scale.transform(transform, null);
+		
+		// +10 pixels for the offset behind the goal box in the tactic pitch image
 		final AffineTransform translate = AffineTransform.getTranslateInstance(10, 0);
-
+		transform = translate.transform(transform, null);
+		
 		final Point retValue = new Point();
-		
-		Point2D transform1 = rotateTranslate.transform(worldPosition, null);
-		Point2D transform2 = scale.transform(transform1, null);
-		Point2D transform3 = translate.transform(transform2, null);
-		
-		retValue.setLocation(translate.transform(scale.transform(rotateTranslate.transform(worldPosition, null), null), null));
-
+		retValue.setLocation(transform);
 		return retValue;
 	}
 	
 	/**
-	 * moving from screen-coordinates to world-coordinates
+	 * projecting point from screen-coordinates to world-coordinates
 	 * @param screenPosition
 	 * @return worldPosition
 	 */
 	public static Point unproject(Point screenPosition) {
-		final Dimension d = new Dimension(PITCH_WIDTH_IN_PX, PITCH_HEIGHT_IN_PX);
+		final Dimension d = new Dimension(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL);
 		
-		final AffineTransform rotateTranslate = AffineTransform.getQuadrantRotateInstance(1);
-		rotateTranslate.translate(0, -PITCH_WIDTH_IN_PX);
-
-		final double sx = d.getHeight() / TaticView.TACTIC_PITCH_WIDTH_IN_PX;
-		final double sy = d.getWidth() / TaticView.TACTIC_PITCH_HEIGHT_IN_PX;
-		
-		final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
-
-		// -10 pixels for the offset behind the goal in the tactic pitch image
+		// -10 pixels for the offset behind the goal box in the tactic pitch image
 		final AffineTransform translate = AffineTransform.getTranslateInstance(-10, 0);
-
+		Point2D transform = translate.transform(screenPosition, null);
+		
+		final double sx = d.getHeight() / TaticView.PITCH_WIDTH_IN_PIXEL;
+		final double sy = d.getWidth() / TaticView.PITCH_HEIGHT_IN_PIXEL;
+		final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
+		
+		transform = scale.transform(transform, null);
+		
+		final AffineTransform rotate = AffineTransform.getQuadrantRotateInstance(1);
+		transform = rotate.transform(transform, null);
+		
+		final AffineTransform flipOverY = AffineTransform.getScaleInstance(-1, 1);
+		transform = flipOverY.transform(transform, null);
+		
 		final Point retValue = new Point();
-		
-		Point2D transform1 = translate.transform(screenPosition, null);
-		Point2D transform2 = scale.transform(transform1, null);
-		Point2D transform3 = rotateTranslate.transform(transform2, null);
-		
-		retValue.setLocation(rotateTranslate.transform(scale.transform(translate.transform(screenPosition, null), null), null));
-
+		retValue.setLocation(transform);
 		return retValue;
 	}
 }

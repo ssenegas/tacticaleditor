@@ -4,6 +4,7 @@
 package org.senegas.tacticeditor;
 
 import java.awt.EventQueue;
+import java.text.MessageFormat;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -11,13 +12,16 @@ import javax.swing.WindowConstants;
 import org.senegas.tacticeditor.view.MainPanel;
 
 public class TacticEditorApp {
+	
+	public static final String TITLE = "Open Kick Off Tactic Editor";
+	public static final String VERSION = "0.5.0";
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> new TacticEditorApp().create());
 	}
 
 	private void create() {
-		final JFrame f = new JFrame("Open Kick Off Tactic Editor");
+		final JFrame f = new JFrame(MessageFormat.format("{0} v{1}", TITLE, VERSION));
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		f.add(new MainPanel());
 		f.pack();

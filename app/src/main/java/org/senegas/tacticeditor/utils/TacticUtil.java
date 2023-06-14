@@ -42,7 +42,7 @@ public class TacticUtil {
 	}
 
 	public static Tactic read(InputStream is) {
-		Map<PitchZone, Map<Integer, Point>> t = new EnumMap<>(PitchZone.class);
+		Map<PitchZone, Map<Integer, Point>> positions = new EnumMap<>(PitchZone.class);
 
 		try (BufferedInputStream bis = new BufferedInputStream(is);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
@@ -56,38 +56,38 @@ public class TacticUtil {
 
 			baos.flush();
 
-			// from short values create a list of points
+			// wrap byte array to a list of points, resulting in a list of two hundred points (20 pitch zones with 10 positions)
 			final List<Point> points = extractPoints(baos.toByteArray());
 
+			// form ten groups of twenty points. For each player, his position for each pitch zone.
 			List<List<Point>> pitchZonePositions = chunk(points, PitchZone.values().length).stream()
 					.collect(Collectors.toList());
 
+			// populate the pitch zone map
 			for (PitchZone pz : PitchZone.values()) {
 				System.out.println("PitchZone: " + pz.getName());
 				IntStream.range(0, Tactic.NUMBER_OF_PLAYERS)
-				.boxed()
-				.forEach(index -> {
-					//System.out.println("Player" + index + ": " + pitchZonePositions.get(index));
-
-					List<Point> pos = pitchZonePositions.get(index);
-
-					Map<Integer, Point> map = t.get(pz);
-					if (map == null) {
-						map = new HashMap<>();
-						t.put(pz, map);
-					}
-					
-					Integer key = mapToShirt(index);
-					map.put(key, pos.get(pz.getIndex()));
-					
-					System.out.println("Player " + key + ": " + map.get(key));
-				});
+					.boxed()
+					.forEach(index -> populatePositions(pz, index, pitchZonePositions, positions));
 			}
 		} catch (final IOException e) {
 			e.printStackTrace();
 		}
 
-		return new Tactic(t);
+		return new Tactic(positions);
+	}
+	
+	private static void populatePositions(PitchZone pz, Integer index, List<List<Point>> pitchZonePositions, Map<PitchZone, Map<Integer, Point>> positions) {
+		List<Point> pos = pitchZonePositions.get(index);
+		Map<Integer, Point> map = positions.get(pz);
+		if (map == null) { // if no value for the pitch zone, create an empty one and add it
+			map = new HashMap<>();
+			positions.put(pz, map);
+		}
+		
+		map.put(mapToShirt(index), pos.get(pz.getIndex()));
+		
+		System.out.println("Player " + mapToShirt(index) + ": " + map.get(mapToShirt(index)));
 	}
 	
 	/**
@@ -96,7 +96,7 @@ public class TacticUtil {
 	 * @param index from 0 to 10
 	 * @return shirt number for tactics
 	 */
-	static private Integer mapToShirt(int index) {
+	private static Integer mapToShirt(int index) {
 		return Tactic.SHIRTS.get(index);
 	}
 

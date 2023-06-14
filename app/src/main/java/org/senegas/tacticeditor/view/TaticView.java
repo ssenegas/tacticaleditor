@@ -8,10 +8,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
@@ -22,7 +19,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -156,10 +152,10 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		if (! this.showRayTrace)
 			return;
 
-		if (this.model.getPreviousZoneSelection() == -1)
+		if (this.model.getPreviousSelectedZone() == -1)
 			return;
 
-		final Map<Integer, Point> previousPositions = getTeamPositionsForZone(this.model.getPreviousZoneSelection());
+		final Map<Integer, Point> previousPositions = getTeamPositionsForZone(this.model.getPreviousSelectedZone());
 		if (previousPositions.isEmpty())
 			return;
 

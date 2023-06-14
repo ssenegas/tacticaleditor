@@ -75,7 +75,13 @@ public class ZoneController extends JPanel {
 		setLayout(new GridLayout(3,4));
 
 		this.model = model;
+		initGui();
+    }
 
+	/**
+	 * 
+	 */
+	private void initGui() {
 		final ButtonGroup group = new ButtonGroup();
 		ButtonModel.stream()
 			.forEach(bm -> {
@@ -85,7 +91,7 @@ public class ZoneController extends JPanel {
 	        	tb.addActionListener(e -> {
 	            	this.model.setSelectedZone(bm.getZone());
 	            	if (bm.isResumeGame())
-	            		this.model.resetPreviousZoneSelection();
+	            		this.model.resetPreviousSelectedZone();
 	            });
 			});
 
@@ -93,7 +99,7 @@ public class ZoneController extends JPanel {
         add(buildResumeGamePanel());
 
         enableDisableButtons();
-    }
+	}
 
 	/**
 	 * @return

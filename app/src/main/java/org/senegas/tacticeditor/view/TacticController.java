@@ -40,7 +40,6 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
     private Point draggedPoint = null; // the point that is currently being dragged
     private Point offset = new Point(); // the offset between the mouse click and the top-left corner of the dragged point
 
-
 	public TacticController(TacticModel model, TaticView view) {
 		super(new BorderLayout());
 

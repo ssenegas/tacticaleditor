@@ -6,6 +6,8 @@ import java.security.InvalidParameterException;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class Tactic implements Serializable {
 	
@@ -17,7 +19,7 @@ public class Tactic implements Serializable {
 	 */
 	private static final long serialVersionUID = -6255623013679331171L;
 
-	private final Map<PitchZone, Map<Integer, Point>> teamPositionPerZone;
+	private final Map<PitchZone, Map<Integer, Point>> positions;
 
 	/**
 	 * Constructor
@@ -31,26 +33,28 @@ public class Tactic implements Serializable {
 	 * @param positions
 	 */
 	public Tactic(Map<PitchZone, Map<Integer, Point>> positions) {
-		this.teamPositionPerZone = positions;
+		this.positions = positions;
 	}
 
 	public Map<PitchZone, Map<Integer, Point>> getPositions() {
-		return this.teamPositionPerZone;
+		return this.positions;
 	}
 	
 	public Map<Integer, Point> getPositionsFor(PitchZone zone) {
-		return this.teamPositionPerZone.get(zone);
+		return Optional.ofNullable(this.positions.get(zone))
+				.orElseThrow(() -> new NoSuchElementException("Zone not found"));
 	}
 	
 	public Point getPositionFor(PitchZone zone, Integer shirt) {
 		if (! SHIRTS.contains(shirt)) {
 			throw new InvalidParameterException();
 		}
-		return this.teamPositionPerZone.get(zone).get(shirt);
+		return Optional.ofNullable(getPositionsFor(zone).get(shirt))
+				.orElseThrow(() -> new NoSuchElementException("Position not found"));
 	}
 
 	@Override
 	public String toString() {
-		return "Tactic [positions=" + this.teamPositionPerZone + "]";
+		return "Tactic [positions=" + this.positions + "]";
 	}
 }

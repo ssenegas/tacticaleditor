@@ -140,7 +140,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 
 		drawRayTrace(g2, positions);
 		
-		Tactic.SHIRTS.stream()
+		Tactic.SQUAD_NUMBERS.stream()
 		.forEach(shirt -> {
 			final Point position = TacticUtil.project(positions.get(shirt));
 			drawPlayerShirt(g2, shirt, position.x, position.y, 8);
@@ -163,7 +163,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 		g2.setStroke(new BasicStroke(1.5f));
 		g2.setColor(Color.YELLOW);
 
-		Tactic.SHIRTS.stream()
+		Tactic.SQUAD_NUMBERS.stream()
 			.forEach(shirt -> {
 				final Point from = TacticUtil.project(previousPositions.get(shirt));
 				final Point to = TacticUtil.project(positions.get(shirt));
@@ -219,7 +219,7 @@ public class TaticView extends JPanel implements PropertyChangeListener {
 	private Map<Integer, Point> getTeamPositionsForZone(int region) {
 		Map<Integer, Point> result = new HashMap<>();
 		if (this.model.getTatic() != null) {
-			result = this.model.getTatic().getPositionsFor(PitchZone.of(region));
+			result = this.model.getTatic().getPositions(PitchZone.of(region));
 		}
 		return result;
 	}

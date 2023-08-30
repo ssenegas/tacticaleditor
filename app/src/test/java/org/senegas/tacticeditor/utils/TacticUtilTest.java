@@ -3,32 +3,50 @@ package org.senegas.tacticeditor.utils;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
+import org.senegas.tacticeditor.model.PlayerBean;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtilTest {
+	
+	private static Map<String, PlayerBean> playersPositionIn532;
+	
+	@BeforeClass
+    public static void setup() throws IOException {
+		playersPositionIn532 =
+				PlayersUtil.toPlayers(PlayersUtil.readPoints("src/test/resources/5-3-2.txt"));
+    }
 
 	@Test
 	public void shouldReturnCorrectTacticWhenReadingFromPath() throws IOException {
 		// given
 		final Path path = Path.of("src/test/resources/tactics/5-3-2.tac");
-
+		
 		// when
 		final Tactic t = Tactic.create(path);
 
 		// then
-		// TODO refactor assertion
 		assertEquals(20, t.getAllPositions().entrySet().size());
+		IntStream.range(2, 12)
+			.forEach(i -> IntStream.range(0, 20)
+							.forEach(j -> assertTrue(playersPositionIn532.get("player" + i).getPositions().get(j)
+									.equals(t.getPositions(PitchZone.of(j)).get(i)))));
 	}
 
 	@Test

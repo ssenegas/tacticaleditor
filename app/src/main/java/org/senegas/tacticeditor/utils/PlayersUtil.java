@@ -18,15 +18,8 @@ import org.senegas.tacticeditor.model.PlayerBean;
 
 public class PlayersUtil {
 
-	public static void main(String[] args) throws IOException {
-		
-		//List<Player> players = readPlayers("src/main/resources/5-3-2.txt");
-		List<Point> points = readPoints("src/main/resources/5-3-2.txt");
-		//System.out.println("# players = " + players.size());
-		System.out.println("# points = " + points.size());
-		
-		Map<String, PlayerBean> players = toPlayers(points);
-		players.forEach((key, value) -> System.out.println(key + " -> " + value));
+	private PlayersUtil() {
+		throw new IllegalStateException("Utility class");
 	}
 
 	public static Map<String, PlayerBean> toPlayers(List<Point> points) {
@@ -35,58 +28,31 @@ public class PlayersUtil {
 				(points.size() + numberOfPitchZone - 1) / numberOfPitchZone)
 				.mapToObj(i -> new PlayerBean("player" + String.valueOf(i + 2),
 						points.subList(i * numberOfPitchZone,
-								                  Math.min(numberOfPitchZone * (i + 1), points.size()))))
+								Math.min(numberOfPitchZone * (i + 1), points.size()))))
 				.collect(Collectors.toList());
-		
+
 		return playerPositions.stream()
 				.collect(Collectors.toMap(PlayerBean::getName, Function.identity()));
 	}
 
-	private static List<PlayerBean> readPlayers(String fileName) throws IOException {
-		Path pathToPlayers = Path.of(fileName);
-		
-		Predicate<String> isPlayer = line -> line.startsWith("player");
-		
-		Function<String, PlayerBean> toPlayer =
-				line -> new PlayerBean(line);
-		
-		List<PlayerBean> players =
-				Files.lines(pathToPlayers)
-					.filter(isPlayer)
-					.map(toPlayer)
-					.collect(Collectors.toList());
-		
-		return players;
-	}
-
 	public static List<Point> readPoints(String fileName) throws IOException {
 		Path pathToPlayers = Path.of(fileName);
-		
+
 		final Pattern p = Pattern.compile("\\[x=(\\d*),y=(\\d*)\\]");
-		
-//		String l = "[x=426,y=12]";
-//		Matcher m = p.matcher(l);
-//		if (m.find()) {
-//			System.out.println(m.group(0));
-//			System.out.println(m.group(1));
-//			System.out.println(m.group(2));
-//		}
-		
+
 		Predicate<String> isPlayerName = line -> line.startsWith("player");
-		
-		Function<String, Point> toPoint =
-				line -> {
-					Matcher m = p.matcher(line);
-					if (m.find()) {
-						int x = Integer.valueOf(m.group(1));
-						int y = Integer.valueOf(m.group(2));
-						return new Point(x, y);
-					}
-					return new Point();
-				};
-				
+		Function<String, Point> toPoint = line -> {
+			Matcher m = p.matcher(line);
+			if (m.find()) {
+				int x = Integer.valueOf(m.group(1));
+				int y = Integer.valueOf(m.group(2));
+				return new Point(x, y);
+			}
+			return new Point();
+		};
+
 		List<Point> points =
-			Files.lines(pathToPlayers)
+				Files.lines(pathToPlayers)
 				.filter(isPlayerName.negate())
 				.map(toPoint)
 				.collect(Collectors.toList());

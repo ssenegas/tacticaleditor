@@ -80,33 +80,37 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	/**
 	 * Handle the Load action
 	 */
-	private void handleLoadAction(ActionEvent e) {
+	private void handleLoadAction(ActionEvent event) {
 		Path path = null;
 		final JFileChooser chooser = new JFileChooser(this.prefs.get(LAST_USED_FOLDER,
 				new File(".").getAbsolutePath()));
 		final int state = chooser.showDialog(TacticController.this, "Load");
 		switch (state) {
-			case JFileChooser.APPROVE_OPTION:
-				//        	        action.setText("OK");
-				try {
-					path = Path.of(chooser.getSelectedFile().getCanonicalPath());
-					this.prefs.put(LAST_USED_FOLDER, chooser.getSelectedFile().getParent());
-				} catch (final IOException e1) {
-					e1.printStackTrace();
-				}
-				break;
-				
-			case JFileChooser.CANCEL_OPTION:
-				//        	        action.setText("Cancel");break;
-				
-			default:
-				//        	        action.setText("Error");
-				return;
+		case JFileChooser.APPROVE_OPTION:
+			//        	        action.setText("OK");
+			try {
+				path = Path.of(chooser.getSelectedFile().getCanonicalPath());
+				this.prefs.put(LAST_USED_FOLDER, chooser.getSelectedFile().getParent());
+			} catch (final IOException e) {
+				e.printStackTrace();
+			}
+			break;
+
+		case JFileChooser.CANCEL_OPTION:
+			//        	        action.setText("Cancel");break;
+
+		default:
+			//        	        action.setText("Error");
+			return;
 		}
-		final Tactic t = TacticUtil.read(path);
-		this.model.setTatic(t);
-		this.zoneController.enableDisableButtons();
-		this.zoneController.toggleGoalkickOwn();
+		try {
+			final Tactic t = Tactic.create(path);
+			this.model.setTatic(t);
+			this.zoneController.enableDisableButtons();
+			this.zoneController.toggleGoalkickOwn();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -123,7 +127,7 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 			return;
 		}
 		
-		Map<Integer, Point> positions = model.getTatic().getPositionsFor(PitchZone.of(model.getSelectedZone()));
+		Map<Integer, Point> positions = model.getTatic().getPositions(PitchZone.of(model.getSelectedZone()));
 		
 		Point worldPosition = TacticUtil.unproject(event.getPoint());
 		System.out.println("clicked point: " + event.getPoint() + " world point: " + worldPosition);

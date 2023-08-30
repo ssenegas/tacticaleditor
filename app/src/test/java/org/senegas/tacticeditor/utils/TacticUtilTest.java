@@ -19,28 +19,33 @@ import org.senegas.tacticeditor.view.TaticView;
 public class TacticUtilTest {
 
 	@Test
-	public void shouldReturnCorrectTacticWhenReadingFromPath() {
+	public void shouldReturnCorrectTacticWhenReadingFromPath() throws IOException {
+		// given
 		final Path path = Path.of("src/test/resources/tactics/5-3-2.tac");
 
-		final Tactic t = TacticUtil.read(path);
+		// when
+		final Tactic t = Tactic.create(path);
 
-		assertEquals(20, t.getPositions().entrySet().size());
+		// then
+		// TODO refactor assertion
+		assertEquals(20, t.getAllPositions().entrySet().size());
 	}
 
 	@Test
-	public void shouldReturnCorrectTacticWhenReadingInputStream() {
-		final Tactic t = TacticUtil.read(this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac"));
-
-		assertEquals(20, t.getPositions().entrySet().size());
+	public void shouldReturnCorrectTacticWhenReadingInputStream() throws IOException {
+		try (final InputStream is = this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac")) {
+			final Tactic t = Tactic.createFromStream(is);
+			// TODO refactor assertion
+			assertEquals(20, t.getAllPositions().entrySet().size());
+		}
 	}
 
 	@Test
 	public void shouldReadByteArrayWhenReadingTacticFile() throws IOException {
-		final InputStream is = this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac");
-
-		final short[] readBinaryTacticFile = TacticUtil.readBinaryTacticFile(is);
-
-		assertEquals(490, readBinaryTacticFile.length);
+		try (final InputStream is = this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac")) {
+			final short[] readBinaryTacticFile = Tactic.readBinaryTacticFile(is);
+			assertEquals(490, readBinaryTacticFile.length);
+		}
 	}
 
 	@Test
@@ -106,15 +111,15 @@ public class TacticUtilTest {
 	}
 	
 	@Test
-	public void shouldReturnCorrectPositionForKickOffOwnPitchZone() {
+	public void shouldReturnCorrectPositionForKickOffOwnPitchZone() throws IOException {
 		// given
 		final Path path = Path.of("src/test/resources/tactics/5-3-2.tac");
 		final Integer shirt = 2;
-		final Tactic t = TacticUtil.read(path);
+		final Tactic t = Tactic.create(path);
 		final Point expected = new Point(666, 345);
 
 		// when
-		Map<Integer, Point> positionsForKickoffOwn = t.getPositionsFor(PitchZone.KICKOFF_OWN);
+		Map<Integer, Point> positionsForKickoffOwn = t.getPositions(PitchZone.KICKOFF_OWN);
 		Point result = positionsForKickoffOwn.get(shirt);
 		
 		// then

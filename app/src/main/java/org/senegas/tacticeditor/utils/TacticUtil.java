@@ -4,26 +4,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.ShortBuffer;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.senegas.tacticeditor.model.PitchConstants;
-import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtil {
@@ -32,104 +14,6 @@ public class TacticUtil {
 		throw new IllegalStateException("Utility class");
 	}
 
-	public static Tactic read(Path path) {
-		try (InputStream inputStream = Files.newInputStream(path)) {
-			return read(inputStream);
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-		return new Tactic();
-	}
-
-	public static Tactic read(InputStream is) {
-		Map<PitchZone, Map<Integer, Point>> positions = new EnumMap<>(PitchZone.class);
-
-		try (BufferedInputStream bis = new BufferedInputStream(is);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();) {
-
-			final byte[] bytes = new byte[10 * 20 * 2 * 2]; // 10 players x 20 areas x position x and y (2 bytes per value, so 4)
-			int count = bis.read(bytes);
-			while (count != -1) {
-				baos.write(bytes, 0, count);
-				count = bis.read(bytes);
-			}
-
-			baos.flush();
-
-			// wrap byte array to a list of points, resulting in a list of two hundred points (20 pitch zones with 10 positions)
-			final List<Point> points = extractPoints(baos.toByteArray());
-
-			// form ten groups of twenty points. For each player, his position for each pitch zone.
-			List<List<Point>> pitchZonePositions = chunk(points, PitchZone.values().length).stream()
-					.collect(Collectors.toList());
-
-			// populate the pitch zone map
-			for (PitchZone pz : PitchZone.values()) {
-				System.out.println("PitchZone: " + pz.getName());
-				IntStream.range(0, Tactic.NUMBER_OF_PLAYERS)
-					.boxed()
-					.forEach(index -> populatePositions(pz, index, pitchZonePositions, positions));
-			}
-		} catch (final IOException e) {
-			e.printStackTrace();
-		}
-
-		return new Tactic(positions);
-	}
-	
-	private static void populatePositions(PitchZone pz, Integer index, List<List<Point>> pitchZonePositions, Map<PitchZone, Map<Integer, Point>> positions) {
-		List<Point> pos = pitchZonePositions.get(index);
-		Map<Integer, Point> map = positions.get(pz);
-		if (map == null) { // if no value for the pitch zone, create an empty one and add it
-			map = new HashMap<>();
-			positions.put(pz, map);
-		}
-		
-		map.put(mapToShirt(index), pos.get(pz.getIndex()));
-		
-		System.out.println("Player " + mapToShirt(index) + ": " + map.get(mapToShirt(index)));
-	}
-	
-	/**
-	 * Map an index to the given shirt in tactic
-	 * 
-	 * @param index from 0 to 10
-	 * @return shirt number for tactics
-	 */
-	private static Integer mapToShirt(int index) {
-		return Tactic.SHIRTS.get(index);
-	}
-
-	/**
-	 * @param buffer
-	 * @return
-	 */
-	private static List<Point> extractPoints(final byte[] buffer) {
-		ShortBuffer shortBuffer = ByteBuffer.wrap(buffer).order(ByteOrder.BIG_ENDIAN).asShortBuffer();
-		return IntStream.iterate(0, i -> i + 2)
-				.limit(Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length)
-				.mapToObj(index -> new Point(shortBuffer.get(index), shortBuffer.get(index + 1)))
-				.collect(Collectors.toList());
-	}
-
-	private static <T> Collection<List<T>> chunk(List<T> src, int size) {
-		return IntStream.range(0, src.size())
-				.boxed()
-				.collect(Collectors.groupingBy(x -> x / size,
-						Collectors.mapping(src::get, Collectors.toList())))
-				.values();
-	}
-
-	public static short[] readBinaryTacticFile(InputStream stream) throws IOException {
-		final byte[] byteArray = stream.readAllBytes();
-
-		// to turn bytes to shorts as either big endian or little endian.
-		final short[] shortArray = new short[byteArray.length / 2];
-		ByteBuffer.wrap(byteArray).order(ByteOrder.BIG_ENDIAN).asShortBuffer().get(shortArray);
-
-		return shortArray;
-	}
-	
 	/**
 	 * projecting point from world-coordinates to screen-coordinates
 	 * 

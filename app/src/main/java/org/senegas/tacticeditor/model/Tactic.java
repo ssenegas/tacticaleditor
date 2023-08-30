@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -42,7 +43,7 @@ public class Tactic implements Serializable {
 	 * Returns a tactic
 	 * 
 	 * @param path
-	 * @return a Tactic containing positions read from a file
+	 * @return a Tactic containing squad positions read from a file
 	 * @throws IOException
 	 */
 	public static Tactic create(Path path) throws IOException {
@@ -56,13 +57,14 @@ public class Tactic implements Serializable {
 	 * Returns a tactic
 	 * 
 	 * @param path
-	 * @return a Tactic containing positions read from an InputStream
+	 * @return a Tactic containing squad positions read from an InputStream
 	 * @throws IOException
 	 */
 	public static Tactic createFromStream(InputStream inputStream) throws IOException {
 		return new Tactic(read(inputStream));
 	}
 
+	// Suppresses default constructor, ensuring non-instantiability
 	private Tactic() {
 		this(new EnumMap<>(PitchZone.class));
 	}
@@ -123,6 +125,15 @@ public class Tactic implements Serializable {
 			// form ten groups of twenty points. For each player, his position for each pitch zone.
 			List<List<Point>> splittedPositions = chunk(points, PitchZone.values().length).stream()
 					.collect(Collectors.toList());
+			
+			AtomicInteger counter = new AtomicInteger(1);
+			splittedPositions.stream()
+				.forEach(player -> {
+					counter.getAndIncrement();
+					System.out.println("player " + counter.get());
+					player.stream()
+						.forEach(System.out::println);
+				});
 
 			// populate the pitch zone players positions
 			for (PitchZone pitchZone : PitchZone.values()) {

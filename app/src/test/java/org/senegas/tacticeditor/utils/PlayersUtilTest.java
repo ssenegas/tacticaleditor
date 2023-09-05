@@ -1,6 +1,6 @@
 package org.senegas.tacticeditor.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.senegas.tacticeditor.model.PlayerBean;
+import org.senegas.tacticeditor.model.PitchZone;
+import org.senegas.tacticeditor.model.Player;
+import org.senegas.tacticeditor.model.Tactic;
 
 public class PlayersUtilTest {
 
@@ -21,7 +23,7 @@ public class PlayersUtilTest {
 		List<Point> points = PlayersUtil.readPoints(fileName);
 		
 		// then
-		assertEquals(200, points.size());
+		assertEquals(Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length, points.size());
 	}
 	
 	@Test
@@ -30,10 +32,10 @@ public class PlayersUtilTest {
 		String fileName = "src/test/resources/5-3-2.txt";
 		
 		// when
-		Map<String, PlayerBean> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
+		Map<String, Player> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
 		
 		// then
-		assertEquals(10, players.size());
+		assertEquals(Tactic.NUMBER_OF_PLAYERS, players.size());
 	}
 	
 	@Test
@@ -42,10 +44,9 @@ public class PlayersUtilTest {
 		String fileName = "src/test/resources/5-3-2.txt";
 		
 		// when
-		Map<String, PlayerBean> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
+		Map<String, Player> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
 		
 		// then
-		players.forEach((key, value) -> assertEquals(20, value.getPositions().size()));
+		players.forEach((key, value) -> assertEquals(PitchZone.values().length, value.getPositions().size()));
 	}
-
 }

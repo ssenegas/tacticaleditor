@@ -16,13 +16,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.PlayerBean;
+import org.senegas.tacticeditor.model.Player;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtilTest {
 
-	private static Map<String, PlayerBean> playersPositionIn532;
+	private static Map<String, Player> playersPositionIn532;
 
 	@BeforeClass
 	public static void setup() throws IOException {
@@ -39,9 +39,9 @@ public class TacticUtilTest {
 		final Tactic t = Tactic.create(path);
 
 		// then
-		assertEquals(20, t.getAllPositions().entrySet().size());
-		IntStream.range(2, 12)
-		.forEach(i -> IntStream.range(0, 20)
+		assertEquals(PitchZone.values().length, t.getAllPositions().entrySet().size());
+		IntStream.range(0 + 2, Tactic.NUMBER_OF_PLAYERS + 2) // squad shirts go from 2 to 11
+		.forEach(i -> IntStream.range(0, PitchZone.values().length)
 				.forEach(j -> assertThat(t.getPositions(PitchZone.of(j)).get(i)
 						, is(playersPositionIn532.get("player" + i).getPositions().get(j)))));
 	}
@@ -55,9 +55,9 @@ public class TacticUtilTest {
 			final Tactic t = Tactic.createFromStream(is);
 
 			// then
-			assertEquals(20, t.getAllPositions().entrySet().size());
-			IntStream.range(2, 12)
-			.forEach(i -> IntStream.range(0, 20)
+			assertEquals(PitchZone.values().length, t.getAllPositions().entrySet().size());
+			IntStream.range(0 + 2, Tactic.NUMBER_OF_PLAYERS + 2) // squad shirts go from 2 to 11
+			.forEach(i -> IntStream.range(0, PitchZone.values().length)
 					.forEach(j -> assertTrue(playersPositionIn532.get("player" + i).getPositions().get(j)
 							.equals(t.getPositions(PitchZone.of(j)).get(i)))));
 		}
@@ -84,10 +84,10 @@ public class TacticUtilTest {
 				TaticView.PITCH_HEIGHT_IN_PIXEL);
 
 		// when
-		final Point result = TacticUtil.project(lowerLeftWorldPosition);
+		final Point actual = TacticUtil.project(lowerLeftWorldPosition);
 
 		// then
-		assertThat(result, is(expected)); 
+		assertThat(actual, is(expected)); 
 	}
 
 	@Test
@@ -98,10 +98,10 @@ public class TacticUtilTest {
 				0);
 
 		// when
-		final Point result = TacticUtil.project(originUpperRightWorldPosition);
+		final Point actual = TacticUtil.project(originUpperRightWorldPosition);
 
 		// then
-		assertThat(result, is(expected));
+		assertThat(actual, is(expected));
 	}
 
 	@Test
@@ -110,31 +110,33 @@ public class TacticUtilTest {
 		Point lowerLeftScreenPosition = new Point(10, 305);
 
 		// when
-		final Point result = TacticUtil.unproject(lowerLeftScreenPosition);
+		final Point actual = TacticUtil.unproject(lowerLeftScreenPosition);
 
 		// then
-		assertThat(result, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, 0)));
+		assertThat(actual, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, 0)));
 	}
 
 	@Test
 	public void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		// given
 		Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, 0);
 
 		// when
-		final Point result = TacticUtil.unproject(upperRightLeftScreenPosition);
+		final Point actual = TacticUtil.unproject(upperRightLeftScreenPosition);
 
 		// then
-		assertThat(result, is(new Point(0, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
+		assertThat(actual, is(new Point(0, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
 	}
 
 	@Test
 	public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+		// given
 		Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, TaticView.PITCH_HEIGHT_IN_PIXEL);
 
 		// when
-		final Point result = TacticUtil.unproject(upperRightLeftScreenPosition);
+		final Point actual = TacticUtil.unproject(upperRightLeftScreenPosition);
 
 		// then
-		assertThat(result, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
+		assertThat(actual, is(new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL, PitchConstants.PITCH_HEIGHT_IN_PIXEL)));
 	}
 }

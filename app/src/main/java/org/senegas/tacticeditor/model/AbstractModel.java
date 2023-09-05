@@ -4,23 +4,22 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public abstract class AbstractModel {
-	
-	protected PropertyChangeSupport propertyChangeSupport;
 
-	protected AbstractModel()
-    {
-        propertyChangeSupport = new PropertyChangeSupport(this);
-    }
+  protected PropertyChangeSupport propertyChangeSupport;
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
+  protected AbstractModel() {
+	this.propertyChangeSupport = new PropertyChangeSupport(this);
+  }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+	this.propertyChangeSupport.addPropertyChangeListener(listener);
+  }
 
-    protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
-        propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
-    }
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+	this.propertyChangeSupport.removePropertyChangeListener(listener);
+  }
+
+  protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+	this.propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue);
+  }
 }

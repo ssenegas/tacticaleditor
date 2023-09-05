@@ -14,28 +14,30 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.Player;
+import org.senegas.tacticeditor.model.TestPlayer;
 
-public class PlayersUtil {
+public class TestPlayerUtil {
 
-  private PlayersUtil() {
+  private TestPlayerUtil() {
 	throw new IllegalStateException("Utility class");
   }
 
-  public static Map<String, Player> toPlayers(List<Point> points) {
+  public static Map<String, TestPlayer> toTestPlayers(List<Point> points) {
 	final int numberOfPitchZone = PitchZone.values().length;
-	final List<Player> playerPositions = IntStream.range(0, (points.size() + numberOfPitchZone - 1) / numberOfPitchZone)
-	    .mapToObj(i -> new Player("player" + String.valueOf(i + 2),
+	final List<TestPlayer> playerPositions = IntStream
+	    .range(0, (points.size() + numberOfPitchZone - 1) / numberOfPitchZone)
+	    .mapToObj(i -> new TestPlayer("player" + String.valueOf(i + 2),
 	        points.subList(i * numberOfPitchZone, Math.min(numberOfPitchZone * (i + 1), points.size()))))
 	    .collect(Collectors.toList());
 
-	return playerPositions.stream().collect(Collectors.toMap(Player::getName, Function.identity()));
+	return playerPositions.stream().collect(Collectors.toMap(TestPlayer::getName, Function.identity()));
   }
 
   public static List<Point> readPoints(String fileName) throws IOException {
 	final Pattern p = Pattern.compile("\\[x=(\\d*),y=(\\d*)\\]");
 
 	final Predicate<String> isPlayerName = line -> line.startsWith("player");
+
 	final Function<String, Point> toPoint = line -> {
 	  final Matcher m = p.matcher(line);
 	  if (m.find()) {
@@ -48,6 +50,7 @@ public class PlayersUtil {
 
 	final List<Point> points = Files.lines(Path.of(fileName)).filter(isPlayerName.negate()).map(toPoint)
 	    .collect(Collectors.toList());
+
 	return points;
   }
 

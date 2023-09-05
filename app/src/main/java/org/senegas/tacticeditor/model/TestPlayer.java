@@ -6,18 +6,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class Player {
+public class TestPlayer {
   private String name;
   private List<Point> positions = new ArrayList<>();
 
-  public Player() {
+  public TestPlayer() {
   }
 
-  public Player(String name) {
+  public TestPlayer(String name) {
 	this(name, new ArrayList<>());
   }
 
-  public Player(String name, List<Point> positions) {
+  public TestPlayer(String name, List<Point> positions) {
 	this.name = name;
 	this.positions = positions;
   }
@@ -59,7 +59,7 @@ public class Player {
 	if (getClass() != obj.getClass()) {
 	  return false;
 	}
-	final Player other = (Player) obj;
+	final TestPlayer other = (TestPlayer) obj;
 	return Objects.equals(this.name, other.name) && Objects.equals(this.positions, other.positions);
   }
 }

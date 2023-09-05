@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.Player;
+import org.senegas.tacticeditor.model.TestPlayer;
 import org.senegas.tacticeditor.model.Tactic;
 
 public class PlayersUtilTest {
@@ -20,7 +20,7 @@ public class PlayersUtilTest {
 		String fileName = "src/test/resources/5-3-2.txt";
 		
 		// when
-		List<Point> points = PlayersUtil.readPoints(fileName);
+		List<Point> points = TestPlayerUtil.readPoints(fileName);
 		
 		// then
 		assertEquals(Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length, points.size());
@@ -32,7 +32,7 @@ public class PlayersUtilTest {
 		String fileName = "src/test/resources/5-3-2.txt";
 		
 		// when
-		Map<String, Player> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
+		Map<String, TestPlayer> players = TestPlayerUtil.toTestPlayers(TestPlayerUtil.readPoints(fileName));
 		
 		// then
 		assertEquals(Tactic.NUMBER_OF_PLAYERS, players.size());
@@ -44,7 +44,7 @@ public class PlayersUtilTest {
 		String fileName = "src/test/resources/5-3-2.txt";
 		
 		// when
-		Map<String, Player> players = PlayersUtil.toPlayers(PlayersUtil.readPoints(fileName));
+		Map<String, TestPlayer> players = TestPlayerUtil.toTestPlayers(TestPlayerUtil.readPoints(fileName));
 		
 		// then
 		players.forEach((key, value) -> assertEquals(PitchZone.values().length, value.getPositions().size()));

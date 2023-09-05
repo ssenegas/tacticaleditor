@@ -16,18 +16,18 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.Player;
+import org.senegas.tacticeditor.model.TestPlayer;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.view.TaticView;
 
 public class TacticUtilTest {
 
-	private static Map<String, Player> playersPositionIn532;
+	private static Map<String, TestPlayer> playersPositionIn532;
 
 	@BeforeClass
 	public static void setup() throws IOException {
 		playersPositionIn532 =
-				PlayersUtil.toPlayers(PlayersUtil.readPoints("src/test/resources/5-3-2.txt"));
+				TestPlayerUtil.toTestPlayers(TestPlayerUtil.readPoints("src/test/resources/5-3-2.txt"));
 	}
 
 	@Test

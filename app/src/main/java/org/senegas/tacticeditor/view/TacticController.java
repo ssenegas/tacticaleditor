@@ -120,9 +120,6 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	}
   }
 
-  /**
-   * Handle the Save action
-   */
   private void handleSaveAction(ActionEvent e) {
 	// Not yet implemented
   }

@@ -27,7 +27,7 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
   private static final long serialVersionUID = 1L;
 
   private TacticModel model;
-  private TaticView view;
+  private TacticView view;
   private ZoneController zoneController;
   private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 
@@ -37,14 +37,14 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
   /** the offset between the mouse click and the top-left corner of the dragged */
   private final Point offset = new Point();
 
-  public TacticController(TacticModel model, TaticView view) {
+  public TacticController(TacticModel model, TacticView view) {
 	super(new BorderLayout());
 
 	initializeMVC(model, view);
 	initGui();
   }
 
-  private void initializeMVC(TacticModel model, TaticView view) {
+  private void initializeMVC(TacticModel model, TacticView view) {
 	this.model = model;
 	this.view = view;
 	this.zoneController = new ZoneController(this.model);

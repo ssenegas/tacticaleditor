@@ -18,7 +18,7 @@ import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TestPlayer;
-import org.senegas.tacticeditor.view.TaticView;
+import org.senegas.tacticeditor.view.TacticView;
 
 public class TacticUtilTest {
 
@@ -80,8 +80,8 @@ public class TacticUtilTest {
 	// given
 	final Point lowerLeftWorldPosition = new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL,
 	    PitchConstants.PITCH_HEIGHT_IN_PIXEL);
-	final Point expected = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, // +10 pixels for the offset behind the goal
-	    TaticView.PITCH_HEIGHT_IN_PIXEL);
+	final Point expected = new Point(TacticView.PITCH_WIDTH_IN_PIXEL + 10, // +10 pixels for the offset behind the goal
+	    TacticView.PITCH_HEIGHT_IN_PIXEL);
 
 	// when
 	final Point actual = TacticUtil.project(lowerLeftWorldPosition);
@@ -119,7 +119,7 @@ public class TacticUtilTest {
   @Test
   public void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
 	// given
-	final Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10, 0);
+	final Point upperRightLeftScreenPosition = new Point(TacticView.PITCH_WIDTH_IN_PIXEL + 10, 0);
 
 	// when
 	final Point actual = TacticUtil.unproject(upperRightLeftScreenPosition);
@@ -131,8 +131,8 @@ public class TacticUtilTest {
   @Test
   public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
 	// given
-	final Point upperRightLeftScreenPosition = new Point(TaticView.PITCH_WIDTH_IN_PIXEL + 10,
-	    TaticView.PITCH_HEIGHT_IN_PIXEL);
+	final Point upperRightLeftScreenPosition = new Point(TacticView.PITCH_WIDTH_IN_PIXEL + 10,
+	    TacticView.PITCH_HEIGHT_IN_PIXEL);
 
 	// when
 	final Point actual = TacticUtil.unproject(upperRightLeftScreenPosition);

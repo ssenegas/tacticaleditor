@@ -13,7 +13,7 @@ public class MainPanel extends JPanel {
 	super(new BorderLayout());
 
 	final TacticModel model = new TacticModel();
-	final TaticView view = new TaticView(model);
+	final TacticView view = new TacticView(model);
 	final TacticController controller = new TacticController(model, view);
 
 	model.addPropertyChangeListener(view);

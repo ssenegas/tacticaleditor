@@ -29,7 +29,7 @@ import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TacticModel;
 import org.senegas.tacticeditor.utils.TacticUtil;
 
-public class TaticView extends JPanel implements PropertyChangeListener {
+public class TacticView extends JPanel implements PropertyChangeListener {
   public static final int PITCH_WIDTH_IN_PIXEL = 465;
   public static final int PITCH_HEIGHT_IN_PIXEL = 305;
 
@@ -39,14 +39,14 @@ public class TaticView extends JPanel implements PropertyChangeListener {
   private final TacticModel model;
   private boolean showRayTrace = false;
 
-  public TaticView(TacticModel model) {
+  public TacticView(TacticModel model) {
 	this.model = model;
 
 	loadBackgroundImage();
   }
 
   private void loadBackgroundImage() {
-	try (InputStream resourceAsStream = TaticView.class.getClassLoader()
+	try (InputStream resourceAsStream = TacticView.class.getClassLoader()
 	    .getResourceAsStream("pitch_tactic_editor.png")) {
 	  this.tacticPitchBackground = ImageIO.read(resourceAsStream);
 	} catch (final IOException e) {

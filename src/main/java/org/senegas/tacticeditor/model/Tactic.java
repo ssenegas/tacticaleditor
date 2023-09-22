@@ -27,15 +27,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Tactic implements Serializable {
-
+  
   public static final int NUMBER_OF_PLAYERS = 10;
-  public static final List<Integer> SQUAD_NUMBERS = List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
+  public static final List<Integer> SQUAD_NUMBERS =
+        List.of(2, 3, 4, 5, 6, 7, 8, 9, 10, 11);
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = -6255623013679331171L;
-
+  private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(Tactic.class.getName());
   private final Map<PitchZone, Map<Integer, Point>> positions;
 
@@ -81,14 +78,6 @@ public class Tactic implements Serializable {
 	return Optional.ofNullable(this.positions.get(zone))
 	    .orElseThrow(() -> new NoSuchElementException("Zone not found"));
   }
-
-//	public Point getPositionFor(PitchZone zone, Integer shirt) {
-//		if (! SHIRTS.contains(shirt)) {
-//			throw new InvalidParameterException();
-//		}
-//		return Optional.ofNullable(getPositions(zone).get(shirt))
-//				.orElseThrow(() -> new NoSuchElementException("Position not found"));
-//	}
 
   public void saveAsXml(Path path) {
   }
@@ -137,15 +126,15 @@ public class Tactic implements Serializable {
 	  final AtomicInteger counter = new AtomicInteger(1);
 	  splittedPositions.stream().forEach(player -> {
 		counter.getAndIncrement();
-		System.out.println("player " + counter.get());
-		player.stream().forEach(System.out::println);
+		LOGGER.log(Level.INFO, "player {0}", counter.get());
+		player.stream()
+          .forEach(p -> LOGGER.log(Level.INFO, "{0}", p));
 	  });
 
 	  // populate the pitch zone players positions
 	  for (final PitchZone pitchZone : PitchZone.values()) {
 		LOGGER.log(Level.INFO, "Populate pitchZone : {0}", pitchZone.getName());
 		IntStream.range(0, Tactic.NUMBER_OF_PLAYERS).boxed()
-		    // .forEach(p -> populatePositions(pitchZone, p, splittedPositions, positions));
 		    .forEach(p -> {
 		      Map<Integer, Point> pitchZonePositions = positions.get(pitchZone);
 		      if (pitchZonePositions == null) { // if no value for the pitch zone, create an empty one and add it
@@ -171,18 +160,16 @@ public class Tactic implements Serializable {
 	return new AbstractMap.SimpleEntry<>(squadNumber, pos.get(pitchZone.getIndex()));
   }
 
-  /**
-   * @param buffer
-   * @return
-   */
   private static List<Point> extractPoints(final byte[] buffer) {
 	final ShortBuffer shortBuffer = ByteBuffer.wrap(buffer).order(ByteOrder.BIG_ENDIAN).asShortBuffer();
-	return IntStream.iterate(0, i -> i + 2).limit(Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length)
-	    .mapToObj(index -> new Point(shortBuffer.get(index), shortBuffer.get(index + 1))).collect(Collectors.toList());
+	return IntStream.iterate(0, i -> i + 2)
+			.limit((long)Tactic.NUMBER_OF_PLAYERS * PitchZone.values().length)
+			.mapToObj(index -> new Point(shortBuffer.get(index), shortBuffer.get(index + 1))).collect(Collectors.toList());
   }
 
   private static <T> Collection<List<T>> chunk(List<T> src, int size) {
 	return IntStream.range(0, src.size()).boxed()
-	    .collect(Collectors.groupingBy(x -> x / size, Collectors.mapping(src::get, Collectors.toList()))).values();
+				.collect(Collectors.groupingBy(x -> x / size,
+						Collectors.mapping(src::get, Collectors.toList()))).values();
   }
 }

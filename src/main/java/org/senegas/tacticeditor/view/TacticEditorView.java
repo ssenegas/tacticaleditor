@@ -19,19 +19,23 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TacticModel;
+import org.senegas.tacticeditor.utils.PitchConstants;
 import org.senegas.tacticeditor.utils.TacticUtil;
 
-public class TacticView extends JPanel implements PropertyChangeListener {
+public class TacticEditorView extends JPanel implements PropertyChangeListener {
   public static final int PITCH_WIDTH_IN_PIXEL = 465;
   public static final int PITCH_HEIGHT_IN_PIXEL = 305;
+  
+  private static final Logger LOGGER = Logger.getLogger(TacticEditorView.class.getName());
 
   private static final Font dialog = new Font("Dialog", Font.BOLD, 14);
   private static final long serialVersionUID = 1L;
@@ -39,14 +43,14 @@ public class TacticView extends JPanel implements PropertyChangeListener {
   private final TacticModel model;
   private boolean showRayTrace = false;
 
-  public TacticView(TacticModel model) {
+  public TacticEditorView(TacticModel model) {
 	this.model = model;
 
 	loadBackgroundImage();
   }
 
   private void loadBackgroundImage() {
-	try (InputStream resourceAsStream = TacticView.class.getClassLoader()
+	try (InputStream resourceAsStream = TacticEditorView.class.getClassLoader()
 	    .getResourceAsStream("pitch_tactic_editor.png")) {
 	  this.tacticPitchBackground = ImageIO.read(resourceAsStream);
 	} catch (final IOException e) {
@@ -77,7 +81,7 @@ public class TacticView extends JPanel implements PropertyChangeListener {
    * 
    * @param listener
    */
-  public void registerListener(TacticController listener) {
+  public void registerListener(TacticEditorController listener) {
 	addMouseListener(listener);
 	addMouseMotionListener(listener);
   }
@@ -176,8 +180,7 @@ public class TacticView extends JPanel implements PropertyChangeListener {
 	Tactic.SQUAD_NUMBERS.stream().forEach(squadNumber -> {
 	  final Point from = TacticUtil.project(previousPositions.get(squadNumber));
 	  final Point to = TacticUtil.project(positions.get(squadNumber));
-
-	  System.out.println("Player" + squadNumber + ": from " + from + " to " + to);
+	  LOGGER.log(Level.INFO, "Player {0}: from {1} to {2}", new Object[] { squadNumber, from, to });
 	  g2.draw(new Line2D.Float(from.x, from.y, to.x, to.y));
 	});
 

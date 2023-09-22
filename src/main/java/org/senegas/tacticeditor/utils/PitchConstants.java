@@ -1,10 +1,6 @@
-package org.senegas.tacticeditor.model;
+package org.senegas.tacticeditor.utils;
 
-public class PitchConstants {
-
-  private PitchConstants() {
-	// restrict instantiation
-  }
+public final class PitchConstants {
 
   // All original game coordinates are based upon the top left corner flag being
   // 0,0 and the bottom right flag
@@ -31,5 +27,9 @@ public class PitchConstants {
 
   public static final int OUTER_BOTTOM_EDGE_X = 176;
   public static final int OUTER_BOTTOM_EDGE_Y = 80;
+  
+  private PitchConstants() {
+		// restrict instantiation
+  }
 
 }

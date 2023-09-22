@@ -5,8 +5,7 @@ import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import org.senegas.tacticeditor.model.PitchConstants;
-import org.senegas.tacticeditor.view.TacticView;
+import org.senegas.tacticeditor.view.TacticEditorView;
 
 public class TacticUtil {
 
@@ -37,7 +36,7 @@ public class TacticUtil {
   * @return Point to screen
   */
   public static Point project(Point fromWorld) {
-	final Dimension d = new Dimension(TacticView.PITCH_WIDTH_IN_PIXEL, TacticView.PITCH_HEIGHT_IN_PIXEL);
+	final Dimension d = new Dimension(TacticEditorView.PITCH_WIDTH_IN_PIXEL, TacticEditorView.PITCH_HEIGHT_IN_PIXEL);
 
 	final AffineTransform flipOverY = AffineTransform.getScaleInstance(-1, 1);
 	Point2D transform = flipOverY.transform(fromWorld, null);
@@ -90,8 +89,8 @@ public class TacticUtil {
 	final AffineTransform translate = AffineTransform.getTranslateInstance(-10, 0);
 	Point2D transform = translate.transform(fromScreen, null);
 
-	final double sx = d.getHeight() / TacticView.PITCH_WIDTH_IN_PIXEL;
-	final double sy = d.getWidth() / TacticView.PITCH_HEIGHT_IN_PIXEL;
+	final double sx = d.getHeight() / TacticEditorView.PITCH_WIDTH_IN_PIXEL;
+	final double sy = d.getWidth() / TacticEditorView.PITCH_HEIGHT_IN_PIXEL;
 	final AffineTransform scale = AffineTransform.getScaleInstance(sx, sy);
 
 	transform = scale.transform(transform, null);

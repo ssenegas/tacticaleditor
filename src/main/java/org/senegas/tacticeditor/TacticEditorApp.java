@@ -9,11 +9,11 @@ import java.text.MessageFormat;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import org.senegas.tacticeditor.view.MainPanel;
+import org.senegas.tacticeditor.view.TacticEditorPanel;
 
 public class TacticEditorApp {
 
-  public static final String TITLE = "Open Kick Off Tactic Editor";
+  public static final String TITLE = "Tactical Editor";
   public static final String VERSION = "0.5.0";
 
   public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class TacticEditorApp {
   private void create() {
 	final JFrame f = new JFrame(MessageFormat.format("{0} v{1}", TITLE, VERSION));
 	f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	f.add(new MainPanel());
+	f.add(new TacticEditorPanel());
 	f.pack();
 	f.setLocationRelativeTo(null);
 	f.setVisible(true);

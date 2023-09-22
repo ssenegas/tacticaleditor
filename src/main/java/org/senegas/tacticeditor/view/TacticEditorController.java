@@ -10,6 +10,8 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
 import javax.swing.JButton;
@@ -23,11 +25,13 @@ import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TacticModel;
 import org.senegas.tacticeditor.utils.TacticUtil;
 
-public class TacticController extends JPanel implements MouseListener, MouseMotionListener {
+public class TacticEditorController extends JPanel implements MouseListener, MouseMotionListener {
   private static final long serialVersionUID = 1L;
+  
+  private static final Logger LOGGER = Logger.getLogger(TacticEditorController.class.getName());
 
   private TacticModel model;
-  private TacticView view;
+  private TacticEditorView view;
   private ZoneController zoneController;
   private static final String LAST_USED_FOLDER = "LAST_USED_FOLDER";
 
@@ -37,14 +41,13 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
   /** the offset between the mouse click and the top-left corner of the dragged */
   private final Point offset = new Point();
 
-  public TacticController(TacticModel model, TacticView view) {
+  public TacticEditorController(TacticModel model, TacticEditorView view) {
 	super(new BorderLayout());
-
 	initializeMVC(model, view);
 	initGui();
   }
 
-  private void initializeMVC(TacticModel model, TacticView view) {
+  private void initializeMVC(TacticModel model, TacticEditorView view) {
 	this.model = model;
 	this.view = view;
 	this.zoneController = new ZoneController(this.model);
@@ -89,35 +92,30 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
   }
 
   private void handleLoadAction(ActionEvent event) {
-	Path path = null;
 	final JFileChooser chooser = new JFileChooser(getLastUsedFolder());
-	final int state = chooser.showDialog(TacticController.this, "Load");
-	switch (state) {
-	case JFileChooser.APPROVE_OPTION:
-	  // action.setText("OK");
-	  try {
-		path = Path.of(chooser.getSelectedFile().getCanonicalPath());
-		setLastUsedFolder(chooser.getSelectedFile().getParent());
+	final int returnVal = chooser.showDialog(TacticEditorController.this, "Load");
+	if (returnVal == JFileChooser.APPROVE_OPTION) {
+      try {
+    	final Path path = Path.of(chooser.getSelectedFile().getCanonicalPath());
+        loadTactic(path);
 	  } catch (final IOException e) {
-		e.printStackTrace();
-	  }
-	  break;
+        e.printStackTrace();
+      }
+	} else {
+		LOGGER.log(Level.INFO, "pen command cancelled by user.");
+    }
+  }
 
-	case JFileChooser.CANCEL_OPTION:
-	  // action.setText("Cancel");break;
-
-	default:
-	  // action.setText("Error");
-	  return;
-	}
-	try {
-	  final Tactic t = Tactic.create(path);
-	  this.model.setTatic(t);
-	  this.zoneController.enableDisableButtons();
-	  this.zoneController.toggleGoalkickOwn();
-	} catch (final IOException e) {
-	  e.printStackTrace();
-	}
+  private void loadTactic(final Path path) {
+    try {
+        final Tactic t = Tactic.create(path);
+        this.model.setTatic(t);
+        this.zoneController.enableDisableButtons();
+        this.zoneController.toggleGoalkickOwn();
+        setLastUsedFolder(path.getParent().toString());
+    } catch (final IOException e) {
+    	LOGGER.log(Level.SEVERE, "Unuable to create tactic: {0}", e.getMessage());
+    }
   }
 
   private void handleSaveAction(ActionEvent e) {
@@ -130,27 +128,28 @@ public class TacticController extends JPanel implements MouseListener, MouseMoti
 	  return;
 	}
 	final Point worldPosition = TacticUtil.unproject(event.getPoint());
-	System.out.println("clicked point: " + event.getPoint() + " world point: " + worldPosition);
+	LOGGER.log(Level.INFO, "mouse pressed at position {0} (world point {1})", new Object[] { event.getPoint(), worldPosition });
 
 	final Map<Integer, Point> positions = this.model.getTatic()
 	    .getPositions(PitchZone.of(this.model.getSelectedZone()));
+	LOGGER.log(Level.INFO, "looking for closest point...");
 	for (final Point point : positions.values()) {
-	  System.out.println("checked point: " + point);
 	  if (worldPosition.getX() >= point.x - 8 && worldPosition.getX() <= point.x + 8
 	      && worldPosition.getY() >= point.y - 8 && worldPosition.getY() <= point.y + 8) {
-		System.out.println("found!");
+		LOGGER.log(Level.INFO, "found! {0}", point);
 		this.draggedPoint = point;
 		this.offset.setLocation(worldPosition.getX() - point.x, worldPosition.getY() - point.y);
 		break;
 	  }
 	}
+	if (this.draggedPoint == null)
+		LOGGER.log(Level.INFO, "not found!");
   }
 
   @Override
   public void mouseReleased(MouseEvent event) {
 	// stop dragging the point
-	System.out.println("stop dragging the point!");
-	System.out.println("dragged point: " + this.draggedPoint);
+	LOGGER.log(Level.INFO, "mouse released");
 	this.draggedPoint = null;
   }
 

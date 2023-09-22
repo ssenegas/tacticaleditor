@@ -3,14 +3,14 @@ package org.senegas.tacticeditor.model;
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TacticModel extends AbstractModel implements Serializable {
 
-  /**
-   *
-   */
-  private static final long serialVersionUID = -8048437731715191967L;
-
+  private static final long serialVersionUID = 1L;
+  private static final Logger LOGGER = Logger.getLogger(TacticModel.class.getName());
+	
   private Tactic tactic;
   private Integer previousSelectedZone;
   private Integer selectedZone;
@@ -46,8 +46,7 @@ public class TacticModel extends AbstractModel implements Serializable {
 	firePropertyChange("zone", this.previousSelectedZone, this.selectedZone);
 
 	final Map<Integer, Point> positions = this.tactic.getPositions(PitchZone.of(this.selectedZone));
-
-	System.out.println("Zone: " + PitchZone.of(this.selectedZone) + " [positions=" + positions + "]");
+	LOGGER.log(Level.INFO, "Zone: {0} [positions: {1}]", new Object[] { PitchZone.of(this.selectedZone), positions});
   }
 
   /**

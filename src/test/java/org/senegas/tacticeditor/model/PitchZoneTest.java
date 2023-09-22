@@ -1,6 +1,7 @@
 package org.senegas.tacticeditor.model;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,13 +9,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PitchZoneTest {
-	
+class PitchZoneTest {
 
 	@Test
-	public void whenOfWithKnownIndexGivenThenReturnAssociatedPitchZone() {
+	void whenOfWithKnownIndexGivenThenReturnAssociatedPitchZone() {
 		// Given
 		List<PitchZone> referenceList = Arrays.asList(PitchZone.values());
 		
@@ -28,9 +28,15 @@ public class PitchZoneTest {
 				referenceList.containsAll(builtList) &&
 				builtList.containsAll(referenceList));
 	}
+	
+	@Test
+    void givenUnknownIndexGivenThenExceptionThrown() {
+		Exception exception = assertThrows(NoSuchElementException.class, () ->
+			PitchZone.of(100));
+		
+		String expectedMessage = "No value present";
+        String actualMessage = exception.getMessage();
 
-	@Test(expected = NoSuchElementException.class)
-	public void whenUnknownIndexGivenThenExceptionThrown() {
-		PitchZone.of(100);
+        assertTrue(actualMessage.contains(expectedMessage));
 	}
 }

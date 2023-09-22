@@ -2,8 +2,8 @@ package org.senegas.tacticeditor.utils;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -12,25 +12,25 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.senegas.tacticeditor.model.PitchConstants;
 import org.senegas.tacticeditor.model.PitchZone;
 import org.senegas.tacticeditor.model.Tactic;
 import org.senegas.tacticeditor.model.TestPlayer;
 import org.senegas.tacticeditor.view.TacticView;
 
-public class TacticUtilTest {
+class TacticUtilTest {
 
   private static Map<String, TestPlayer> playersPositionIn532;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() throws IOException {
 	playersPositionIn532 = TestPlayerUtil.toTestPlayers(TestPlayerUtil.readPoints("src/test/resources/5-3-2.txt"));
   }
 
   @Test
-  public void shouldReturnCorrectTacticWhenReadingFromPath() throws IOException {
+   void shouldReturnCorrectTacticWhenReadingFromPath() throws IOException {
 	// given
 	final Path path = Path.of("src/test/resources/tactics/5-3-2.tac");
 
@@ -46,7 +46,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnCorrectTacticWhenReadingInputStream() throws IOException {
+  void shouldReturnCorrectTacticWhenReadingInputStream() throws IOException {
 	// given
 	try (final InputStream is = this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac")) {
 
@@ -63,7 +63,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReadByteArrayWhenReadingTacticFile() throws IOException {
+  void shouldReadByteArrayWhenReadingTacticFile() throws IOException {
 	// given
 	try (final InputStream is = this.getClass().getClassLoader().getResourceAsStream("5-3-2.tac")) {
 
@@ -76,7 +76,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnProjectedLowerRightScreenPositionWhenLowerLeftWorldPositionIsGiven() {
+  void shouldReturnProjectedLowerRightScreenPositionWhenLowerLeftWorldPositionIsGiven() {
 	// given
 	final Point lowerLeftWorldPosition = new Point(PitchConstants.PITCH_WIDTH_IN_PIXEL,
 	    PitchConstants.PITCH_HEIGHT_IN_PIXEL);
@@ -91,7 +91,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnProjectedUpperRightScreenPositionWhenOriginUpperRightWorldPositionIsGiven() {
+  void shouldReturnProjectedUpperRightScreenPositionWhenOriginUpperRightWorldPositionIsGiven() {
 	// given
 	final Point originUpperRightWorldPosition = new Point(0, 0);
 	final Point expected = new Point(0 + 10, // +10 pixels for the offset behind the goal
@@ -105,7 +105,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnLowerLeftWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+  void shouldReturnLowerLeftWorldPositionWhenLowerLeftScreenPositionIsGiven() {
 	// given
 	final Point lowerLeftScreenPosition = new Point(10, 305);
 
@@ -117,7 +117,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+  void shouldReturnUpperRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
 	// given
 	final Point upperRightLeftScreenPosition = new Point(TacticView.PITCH_WIDTH_IN_PIXEL + 10, 0);
 
@@ -129,7 +129,7 @@ public class TacticUtilTest {
   }
 
   @Test
-  public void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
+  void shouldReturnLowerRightWorldPositionWhenLowerLeftScreenPositionIsGiven() {
 	// given
 	final Point upperRightLeftScreenPosition = new Point(TacticView.PITCH_WIDTH_IN_PIXEL + 10,
 	    TacticView.PITCH_HEIGHT_IN_PIXEL);

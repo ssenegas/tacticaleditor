@@ -1,21 +1,21 @@
 package org.senegas.tacticeditor.utils;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.senegas.tacticeditor.model.PitchZone;
-import org.senegas.tacticeditor.model.TestPlayer;
 import org.senegas.tacticeditor.model.Tactic;
+import org.senegas.tacticeditor.model.TestPlayer;
 
-public class PlayersUtilTest {
+class PlayersUtilTest {
 
 	@Test
-	public void readPointsShouldReturnTwoHundredPoints() throws IOException {
+	void readPointsShouldReturnTwoHundredPoints() throws IOException {
 		// given
 		String fileName = "src/test/resources/5-3-2.txt";
 		
@@ -27,7 +27,7 @@ public class PlayersUtilTest {
 	}
 	
 	@Test
-	public void toPlayersShouldReturnTenPlayers() throws IOException {
+	void toPlayersShouldReturnTenPlayers() throws IOException {
 		// given
 		String fileName = "src/test/resources/5-3-2.txt";
 		
@@ -39,7 +39,7 @@ public class PlayersUtilTest {
 	}
 	
 	@Test
-	public void playersPositionsShouldReturnTwentyPositions() throws IOException {
+	void playersPositionsShouldReturnTwentyPositions() throws IOException {
 		// given
 		String fileName = "src/test/resources/5-3-2.txt";
 		

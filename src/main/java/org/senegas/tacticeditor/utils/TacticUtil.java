@@ -15,23 +15,6 @@ public class TacticUtil {
 
   /**
   * Projection of a point from world-coordinates to screen-coordinates
-  * 
-  * world-coordinates            screen-coordinates
-  * 
-  *    x            0            0                y
-  *    ◄────────────┐0          0┌───────────────────────────►
-  *    912          │            │              465
-  *                 │            │
-  *                 │     ──►    │
-  *                 │            │
-  *                 │            │
-  *                 │           x▼ 305
-  *                 │
-  *                 │
-  *                 │
-  *                 │
-  *            1392 ▼y
-  * 
   * @param fromWorld
   * @return Point to screen
   */
@@ -61,24 +44,6 @@ public class TacticUtil {
 
   /**
   * Projection of a point from screen-coordinates to world-coordinates
-  * 
-  *   screen-coordinates             world-coordinates
-  *  
-  *   0              0 y                           x            0
-  *  0┌───────────────────────────►                ◄────────────┐0
-  *   │              465                           912          │
-  *   │                                                         │
-  *   │                                                         │
-  *   │                                   ──►                   │
-  *   │                                                         │
-  *   │                                                         │
-  *  x▼ 305                                                     │
-  *                                                             │
-  *                                                             │
-  *                                                             │
-  *                                                             │
-  *                                                        1392 ▼y
-  * 
   * @param fromScreen
   * @return Point to world
   */

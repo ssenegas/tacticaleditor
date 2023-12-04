@@ -9,18 +9,20 @@ import java.text.MessageFormat;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import org.senegas.tacticeditor.view.TacticEditorPanel;
 
 public class TacticEditorApp {
 
   public static final String TITLE = "Tactical Editor";
-  public static final String VERSION = "0.5.0";
+  public static final String VERSION = "0.6.0";
 
   public static void main(String[] args) {
 	EventQueue.invokeLater(() -> new TacticEditorApp().create());
   }
 
   private void create() {
+	FlatIntelliJLaf.setup();
 	final JFrame f = new JFrame(MessageFormat.format("{0} v{1}", TITLE, VERSION));
 	f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	f.add(new TacticEditorPanel());
